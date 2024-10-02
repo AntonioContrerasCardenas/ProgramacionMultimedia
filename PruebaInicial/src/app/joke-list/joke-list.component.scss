@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid black;
+  padding-bottom: 4%;
+
+  h4 {
+    font-size: 1.1rem;
+  }
+
+  button {
+    background-color: orange;
+    border: none;
+    padding: 1%;
+    border-radius: 8px;
+  }
+
+  strong {
+    text-decoration: underline;
+  }
+}
