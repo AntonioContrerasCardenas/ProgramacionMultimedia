@@ -1,0 +1,8 @@
+<h4><strong>SETUP: </strong>{{ joke.setup }}</h4>
+<p [hidden]="joke.hide">
+  <strong>PUNCHLINE:</strong>
+  {{ joke.punchline }}
+</p>
+<button (click)="joke.toggle()">
+  {{ joke.hide ? "Show" : "Hidde" }}
+</button>

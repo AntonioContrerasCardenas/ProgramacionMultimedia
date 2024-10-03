@@ -1,23 +1,17 @@
-.container {
+.joke_list {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid black;
-  padding-bottom: 4%;
+  border-bottom-style: dotted;
+  padding: 4%;
+  margin-bottom: 4%;
+  border: 1px solid black;
+}
 
-  h4 {
-    font-size: 1.1rem;
-  }
-
-  button {
-    background-color: orange;
-    border: none;
-    padding: 1%;
-    border-radius: 8px;
-  }
-
-  strong {
-    text-decoration: underline;
-  }
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
