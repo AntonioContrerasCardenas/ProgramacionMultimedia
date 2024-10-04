@@ -1,18 +1,19 @@
 import { NgFor } from '@angular/common';
 import { Component, signal, WritableSignal } from '@angular/core';
-import { Joke } from '../classes/joke';
+import { Joke } from '../core/classes/joke';
 import { JokeItemComponent } from '../joke-item/joke-item.component';
+import { JokeFormComponent } from '../joke-form/joke-form.component';
+import { JokeInterface } from '../core/interface/joke.interface';
 
 @Component({
   selector: 'joke-list',
   standalone: true,
-  imports: [NgFor, JokeItemComponent],
+  imports: [NgFor, JokeItemComponent, JokeFormComponent],
   templateUrl: './joke-list.component.html',
   styleUrl: './joke-list.component.scss',
 })
 export class JokeListComponent {
   public jokes: Joke[];
-  public jokesSignal: WritableSignal<Joke[]> = signal<Joke[]>([]);
 
   constructor() {
     this.jokes = [
@@ -29,7 +30,10 @@ export class JokeListComponent {
         '"I thought ‘That’s not very mature"'
       ),
     ];
+  }
 
-    this.jokesSignal.set(this.jokes);
+  addJoke({ setup, punchline }: JokeInterface) {
+    if (setup != '' && punchline != '')
+      this.jokes.unshift(new Joke(setup, punchline));
   }
 }

@@ -1,0 +1,4 @@
+<h1>Create Joke</h1>
+<input type="text" placeholder="Write the setup" #setUp />
+<input type="text" placeholder="Write the punchline" #punchline />
+<button (click)="addJoke(setUp.value, punchline.value)">Create</button>

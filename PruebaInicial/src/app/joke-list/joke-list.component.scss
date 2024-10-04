@@ -1,16 +1,14 @@
-.joke_list {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid black;
-  border-bottom-style: dotted;
-  padding: 4%;
-  margin-bottom: 4%;
-  border: 1px solid black;
 }
 
-.container {
+.card {
+  padding: 20px;
+  margin: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 5px 10px rgba(18, 48, 6, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;

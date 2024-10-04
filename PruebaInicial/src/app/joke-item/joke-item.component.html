@@ -1,8 +1,18 @@
-<h4><strong>SETUP: </strong>{{ joke.setup }}</h4>
+<h1><strong>SETUP: </strong>{{ joke.setup }}</h1>
 <p [hidden]="joke.hide">
   <strong>PUNCHLINE:</strong>
   {{ joke.punchline }}
 </p>
 <button (click)="joke.toggle()">
-  {{ joke.hide ? "Show" : "Hidde" }}
+  {{ joke.hide ? "Tell Me" : "Hidde" }}
 </button>
+
+<!-- Nueva forma angular 18
+<h4><strong>SETUP: </strong>{{ joke().setup }}</h4>
+<p [hidden]="joke().hide">
+  <strong>PUNCHLINE:</strong>
+  {{ joke().punchline }}
+</p>
+<button (click)="joke().toggle()">
+  {{ joke().hide ? "Show" : "Hidde" }}
+</button> -->
