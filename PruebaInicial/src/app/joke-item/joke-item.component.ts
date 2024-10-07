@@ -1,4 +1,4 @@
-import { Component, input, Input } from '@angular/core';
+import { Component, input, Input, output } from '@angular/core';
 import { Joke } from '../core/classes/joke';
 
 @Component({
@@ -11,6 +11,12 @@ import { Joke } from '../core/classes/joke';
 export class JokeItemComponent {
   @Input({ required: true })
   public joke: Joke = {} as Joke;
+
+  jokeDelete = output<Joke>();
+
+  delteJoke(joke: Joke) {
+    this.jokeDelete.emit(joke);
+  }
 
   // Nueva forma angular 18
   // public joke = input.required<Joke>();

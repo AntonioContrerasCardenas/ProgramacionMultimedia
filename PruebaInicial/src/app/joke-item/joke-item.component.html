@@ -3,16 +3,23 @@
   <strong>PUNCHLINE:</strong>
   {{ joke.punchline }}
 </p>
-<button (click)="joke.toggle()">
-  {{ joke.hide ? "Tell Me" : "Hidde" }}
-</button>
+<div>
+  <button (click)="joke.toggle()">
+    {{ joke.hide ? "Tell Me" : "Hidde" }}
+  </button>
+  <button class="btn_danger" (click)="delteJoke(joke)">Delete me</button>
+</div>
 
 <!-- Nueva forma angular 18
-<h4><strong>SETUP: </strong>{{ joke().setup }}</h4>
+<h1><strong>SETUP: </strong>{{ joke().setup }}</h1>
 <p [hidden]="joke().hide">
   <strong>PUNCHLINE:</strong>
   {{ joke().punchline }}
 </p>
-<button (click)="joke().toggle()">
-  {{ joke().hide ? "Show" : "Hidde" }}
-</button> -->
+<div class="btn_grid">
+  <button (click)="joke().toggle()">
+    {{ joke().hide ? "Tell Me" : "Hidde" }}
+  </button>
+  <button class="btn_danger" (click)="delteJoke(joke())">Delete me</button>
+</div>
+-->

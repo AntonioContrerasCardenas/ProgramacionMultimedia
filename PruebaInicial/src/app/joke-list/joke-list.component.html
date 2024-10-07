@@ -1,4 +1,9 @@
 <div class="container">
   <joke-form class="card" (jokeNew)="addJoke($event)" />
-  <joke-item *ngFor="let joke of jokes" class="card" [joke]="joke" />
+  <joke-item
+    *ngFor="let joke of jokes()"
+    class="card"
+    (jokeDelete)="deleteJoke($event)"
+    [joke]="joke"
+  />
 </div>
