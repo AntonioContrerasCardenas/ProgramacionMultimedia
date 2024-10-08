@@ -14,12 +14,8 @@ import { JokesService } from '../core/services/jokes.service';
   styleUrl: './joke-list.component.scss',
 })
 export class JokeListComponent {
-  public jokes: WritableSignal<Joke[]> = signal<Joke[]>([]);
   private jokeService = inject(JokesService);
-
-  constructor() {
-    this.jokes = this.jokeService.getJokes();
-  }
+  public jokes: WritableSignal<Joke[]> = this.jokeService.getJokes();
 
   addJoke({ setup, punchline }: JokeInterface) {
     if (setup != '' && punchline != '')
