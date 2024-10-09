@@ -1,4 +1,4 @@
-<div class="container">
+<main class="container">
   <joke-form class="card" (jokeNew)="addJoke($event)" />
   <joke-item
     *ngFor="let joke of jokes()"
@@ -6,4 +6,4 @@
     (jokeDelete)="deleteJoke($event)"
     [joke]="joke"
   />
-</div>
+</main>
