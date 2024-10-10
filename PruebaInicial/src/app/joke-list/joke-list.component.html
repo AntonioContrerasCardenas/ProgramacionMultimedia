@@ -1,5 +1,6 @@
 <main class="container">
   <joke-form class="card" (jokeNew)="addJoke($event)" />
+  <button (click)="updateJokes()">Update jokes</button>
   <joke-item
     *ngFor="let joke of jokes()"
     class="card"

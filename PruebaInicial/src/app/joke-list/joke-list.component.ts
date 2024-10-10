@@ -15,14 +15,25 @@ import { JokesService } from '../core/services/jokes.service';
 })
 export class JokeListComponent {
   private jokeService = inject(JokesService);
-  public jokes: WritableSignal<Joke[]> = this.jokeService.getJokes();
+  public jokes: WritableSignal<Joke[]> = signal<Joke[]>([]);
+
+  constructor() {
+    this.jokes = this.jokeService.getJokes();
+    // O tambien puedo pasar la variable publica y ahorrarme el metodo
+    // this.jokes = this.jokeService.jokes;
+  }
 
   addJoke({ setup, punchline }: JokeInterface) {
     if (setup != '' && punchline != '')
       this.jokeService.addJoke({ setup, punchline });
   }
 
-  deleteJoke(joke: Joke) {
-    this.jokeService.deleteJoke(joke);
+  deleteJoke(id: number) {
+    console.log(id);
+    this.jokeService.deleteJoke(id);
+  }
+
+  updateJokes() {
+    this.jokeService.setInitialJokes();
   }
 }

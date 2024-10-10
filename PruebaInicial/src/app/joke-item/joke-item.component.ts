@@ -12,10 +12,10 @@ export class JokeItemComponent {
   @Input({ required: true })
   public joke: Joke = {} as Joke;
 
-  jokeDelete = output<Joke>();
+  jokeDelete = output<number>();
 
-  delteJoke(joke: Joke) {
-    this.jokeDelete.emit(joke);
+  delteJoke(id: number) {
+    this.jokeDelete.emit(id);
   }
 
   // Nueva forma angular 18
