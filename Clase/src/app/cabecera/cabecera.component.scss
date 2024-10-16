@@ -1,0 +1,12 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-bottom: 2px solid #d6caca;
+  img {
+    max-height: 50px;
+    object-fit: contain;
+  }
+}
