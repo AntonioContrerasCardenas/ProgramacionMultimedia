@@ -6,7 +6,7 @@ import { JokeInterface } from '../interface/joke.interface';
   providedIn: 'root',
 })
 export class JokesService {
-  private initialJokes: Joke[] = [
+  private readonly initialJokes: Joke[] = [
     new Joke(
       '"What did the cheese say when it looked in the mirror?',
       'Hello me (Halloumi)'
@@ -21,13 +21,8 @@ export class JokesService {
     ),
   ];
 
-  private _jokes: WritableSignal<Joke[]> = signal<Joke[]>([]);
-  public jokes: WritableSignal<Joke[]> = signal<Joke[]>([]);
-
-  constructor() {
-    this.jokes.set(this.initialJokes);
-    this._jokes.set(this.initialJokes);
-  }
+  //private _jokes: WritableSignal<Joke[]> = signal<Joke[]>([]);
+  private jokes: WritableSignal<Joke[]> = signal<Joke[]>(this.initialJokes);
 
   getJokes(): WritableSignal<Joke[]> {
     return this.jokes;
@@ -39,7 +34,7 @@ export class JokesService {
   }
 
   setInitialJokes() {
-    this.jokes.set(this._jokes());
+    this.jokes.set(this.initialJokes);
   }
 
   deleteJoke(id: number) {
