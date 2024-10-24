@@ -1,15 +1,5 @@
 <header>
   <img [src]="urlLogo" alt="" />
-  <!-- Solucion1 
- FinSolucion1-->
-
-  <!-- Solucion2
-<ng-content select="img"></ng-content>
-FinSolucion2-->
-
-  <!-- Solucion3
-<img #imga src="logos/logo3.jpg" alt="" /> 
-FinSolucion3-->
 
   <button>Boton1</button>
   <button>Boton2</button>
@@ -19,7 +9,7 @@ FinSolucion3-->
   <h1>Ejercicio2</h1>
   <div>
     <a upperGreen href="">Etiqueta A</a>
-    <a upperGreen href="">Etiqueta A</a>
-    <a upperGreen href="">Etiqueta A</a>
+    <a [upperGreen]="'red'" href="">Etiqueta A</a>
+    <a [upperGreen]="'blue'" href="">Etiqueta A</a>
   </div>
 </section>

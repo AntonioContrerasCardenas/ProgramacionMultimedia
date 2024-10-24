@@ -3,6 +3,7 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  Input,
   Renderer2,
 } from '@angular/core';
 
@@ -11,31 +12,27 @@ import {
   standalone: true,
 })
 export class UpperGreenDirective {
-  private originalText: string = '';
+  @Input('upperGreen') borderColor: string = 'green';
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
-  @HostBinding('class') currentClass = '';
-
   @HostListener('mouseenter') onMouseEnter() {
-    this.originalText = this.el.nativeElement.innerText;
-    //this.renderer.addClass(this.el.nativeElement, 'upperborder');
-    this.renderer.setProperty(
+    this.renderer.setStyle(
       this.el.nativeElement,
-      'innerText',
-      this.originalText.toUpperCase()
+      'text-transform',
+      'uppercase'
     );
 
-    this.currentClass = 'upperborder';
+    this.renderer.setStyle(
+      this.el.nativeElement,
+      'border',
+      `2px solid ${this.borderColor}`
+    );
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    //this.renderer.removeClass(this.el.nativeElement, 'upperborder');
-    this.currentClass = '';
-    this.renderer.setProperty(
-      this.el.nativeElement,
-      'innerText',
-      this.originalText
-    );
+    this.renderer.removeStyle(this.el.nativeElement, 'text-transform');
+
+    this.renderer.removeStyle(this.el.nativeElement, 'border');
   }
 }
