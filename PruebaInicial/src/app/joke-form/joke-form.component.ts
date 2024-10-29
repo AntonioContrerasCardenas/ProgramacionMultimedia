@@ -2,10 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   output,
   Output,
 } from '@angular/core';
 import { JokeInterface } from '../core/interface/joke.interface';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'joke-form',
@@ -17,6 +19,13 @@ import { JokeInterface } from '../core/interface/joke.interface';
 export class JokeFormComponent {
   // @Output()
   // public jokeNew = new EventEmitter<JokeInterface>();
+
+  private fb = inject(FormBuilder);
+
+  public myForm: FormGroup = this.fb.group({
+    setup: ['', [Validators.required, Validators.minLength(6)]],
+    punchline: ['', [Validators.required, Validators.minLength(6)]],
+  });
 
   jokeNew = output<JokeInterface>();
 
