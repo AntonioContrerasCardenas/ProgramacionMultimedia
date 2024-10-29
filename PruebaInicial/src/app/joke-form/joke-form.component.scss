@@ -16,10 +16,23 @@ form {
     margin-top: 5%;
     background-color: #3e98d4;
     color: white;
-    cursor: pointer;
     font-size: 1rem;
     padding: 1rem;
     border: none;
     border-radius: 5px;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  .form_invalid__input {
+    border-color: red;
+  }
+
+  .form_error {
+    text-align: left;
+    color: red;
+    font-weight: bold;
   }
 }

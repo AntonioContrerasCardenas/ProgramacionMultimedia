@@ -1,23 +1,28 @@
 <h1>Create Joke</h1>
-<form (submit)="addJoke(setUp.value, punchline.value)">
+<form [formGroup]="myForm" (ngSubmit)="onSubmit(setUp.value, punchline.value)">
   <input
+    formControlName="setup"
+    [ngClass]="{ form_invalid__input: isInValidField('setup') }"
     type="text"
     id="setUp"
     name="setUp"
     placeholder="Write the setup"
     #setUp
   />
+  @if (isInValidField('setup')) {
+  <span class="form_error">{{ getFieldError("setup") }}</span>
+  }
   <input
+    formControlName="punchline"
+    [ngClass]="{ form_invalid__input: isInValidField('punchline') }"
     type="text"
     id="punchline"
     name="punchline"
     placeholder="Write the punchline"
     #punchline
   />
-  <input
-    class="btn"
-    type="submit"
-    (click)="addJoke(setUp.value, punchline.value)"
-    value="Create"
-  />
+  @if (isInValidField('punchline')) {
+  <span class="form_error">{{ getFieldError("punchline") }}</span>
+  }
+  <button class="btn" [disabled]="myForm.invalid" type="submit">Create</button>
 </form>
