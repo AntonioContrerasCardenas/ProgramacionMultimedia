@@ -1,0 +1,14 @@
+<main>
+  <book-header (loginClicked)="toggleButton()" />
+
+  <section>
+    @if (isLogged) {
+    <book-logged-page />
+    } @else {
+    <book-login />
+    }
+  </section>
+  <footer>
+    <p>Practica 1 realizada por Antonio Contreras Cardenas</p>
+  </footer>
+</main>
