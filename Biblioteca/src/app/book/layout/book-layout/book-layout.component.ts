@@ -16,4 +16,8 @@ export class BookLayoutComponent {
   toggleButton(): void {
     this.isLogged = !this.isLogged;
   }
+
+  setLogged(): void {
+    this.isLogged = true;
+  }
 }

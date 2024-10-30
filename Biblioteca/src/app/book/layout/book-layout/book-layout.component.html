@@ -1,11 +1,11 @@
 <main>
-  <book-header (loginClicked)="toggleButton()" />
+  <book-header (loginClicked)="setLogged()" />
 
   <section>
     @if (isLogged) {
     <book-logged-page />
     } @else {
-    <book-login />
+    <book-login (loginClicked)="setLogged()" />
     }
   </section>
   <footer>

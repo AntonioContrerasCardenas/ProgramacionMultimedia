@@ -1,1 +1,33 @@
-<p>book-login works!</p>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <h2>Iniciar sesion</h2>
+
+  <div class="form_group">
+    <label for="email">Correo electronico</label>
+    <input
+      formControlName="email"
+      type="email"
+      name="email"
+      id="email"
+      autocomplete="email"
+    />
+    @if(isValidField('email')){
+    <span>{{ getFieldError("email") }}</span>
+    }
+  </div>
+
+  <div class="form_group">
+    <label for="password">Contrasenia</label>
+    <input
+      formControlName="password"
+      type="password"
+      name="password"
+      id="password"
+      autocomplete="current-password"
+    />
+    @if(isValidField('password')){
+    <span>{{ getFieldError("password") }}</span>
+    }
+  </div>
+
+  <button type="submit" [disabled]="myForm.invalid">Login</button>
+</form>
