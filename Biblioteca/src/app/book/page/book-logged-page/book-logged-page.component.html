@@ -1,1 +1,4 @@
-<p>book-logged-page works!</p>
+<article>
+  <book-search (searchValue)="filterBooks($event)" />
+  <book-list [books]="books()" />
+</article>

@@ -1,4 +1,10 @@
-import { Injectable } from '@angular/core';
+import {
+  computed,
+  Injectable,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { BookInterface } from '../interfaces/book.interface';
 
 @Injectable({
@@ -134,5 +140,22 @@ export class BookServiceService {
     },
   ];
 
-  constructor() {}
+  private _currentBooks: WritableSignal<BookInterface[]> = signal<
+    BookInterface[]
+  >([...this.BOOKS]);
+
+  public readBooks = this._currentBooks.asReadonly();
+
+  public getAll() {
+    this._currentBooks.set([...this.BOOKS]);
+  }
+
+  public filterBooks(searchTerm: string): void {
+    console.log('Filtrando...' + searchTerm);
+    this._currentBooks.set(
+      this.BOOKS.filter((book) => {
+        return book.titulo.toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
+  }
 }

@@ -1,1 +1,10 @@
-<p>book-search works!</p>
+<div>
+  <input
+    type="text"
+    name="search"
+    id="search"
+    #searchValue
+    placeholder="Busca el titulo de tu libro"
+    (keyup)="emitSearch(searchValue.value)"
+  />
+</div>
