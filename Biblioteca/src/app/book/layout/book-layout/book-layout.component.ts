@@ -11,8 +11,8 @@ import { BookLoginComponent } from '../../components/book-login/book-login.compo
   styleUrl: './book-layout.component.scss',
 })
 export class BookLayoutComponent {
-  //public isLogged: boolean = false;
-  public isLogged: boolean = true;
+  public isLogged: boolean = false;
+  //public isLogged: boolean = true;
   toggleButton(): void {
     this.isLogged = !this.isLogged;
   }

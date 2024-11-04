@@ -11,7 +11,13 @@ export class BookSearchComponent {
   @Output()
   public searchValue = new EventEmitter<string>();
 
+  private debouncer: any;
+
   emitSearch(searchTerm: string): void {
-    this.searchValue.emit(searchTerm);
+    clearTimeout(this.debouncer);
+
+    this.debouncer = setTimeout(() => {
+      this.searchValue.emit(searchTerm);
+    }, 300);
   }
 }

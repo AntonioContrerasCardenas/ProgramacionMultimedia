@@ -151,7 +151,6 @@ export class BookServiceService {
   }
 
   public filterBooks(searchTerm: string): void {
-    console.log('Filtrando...' + searchTerm);
     this._currentBooks.set(
       this.BOOKS.filter((book) => {
         return book.titulo.toLowerCase().includes(searchTerm.toLowerCase());
