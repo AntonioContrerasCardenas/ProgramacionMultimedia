@@ -1,7 +1,3 @@
-@if (books.length === 0) {
-<h1 class="underline">No hay libros disponibles</h1>
-}@else {
-<h1 class="underline">Hay {{ books.length }} libros disponibles</h1>
-@for (book of books; track book.isbn) {
+@for (book of (books | async); track book.isbn) {
 <p>{{ book.titulo }}</p>
-} }
+}

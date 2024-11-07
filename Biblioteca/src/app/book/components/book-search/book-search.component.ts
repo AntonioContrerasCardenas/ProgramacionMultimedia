@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { BookServiceService } from '../../../core/services/book-service.service';
 
 @Component({
   selector: 'book-search',
@@ -8,16 +9,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './book-search.component.scss',
 })
 export class BookSearchComponent {
-  @Output()
-  public searchValue = new EventEmitter<string>();
-
-  private debouncer: any;
+  private bookService = inject(BookServiceService);
 
   emitSearch(searchTerm: string): void {
-    clearTimeout(this.debouncer);
-
-    this.debouncer = setTimeout(() => {
-      this.searchValue.emit(searchTerm);
+    setTimeout(() => {
+      this.bookService.filterBooks(searchTerm);
     }, 300);
   }
 }

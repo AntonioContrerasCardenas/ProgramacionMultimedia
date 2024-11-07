@@ -1,11 +1,6 @@
-import {
-  computed,
-  Injectable,
-  Signal,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BookInterface } from '../interfaces/book.interface';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -140,18 +135,12 @@ export class BookServiceService {
     },
   ];
 
-  private _currentBooks: WritableSignal<BookInterface[]> = signal<
-    BookInterface[]
-  >([...this.BOOKS]);
+  private books = new BehaviorSubject<BookInterface[]>([...this.BOOKS]);
 
-  public readBooks = this._currentBooks.asReadonly();
-
-  public getAll() {
-    this._currentBooks.set([...this.BOOKS]);
-  }
+  public books$ = this.books.asObservable();
 
   public filterBooks(searchTerm: string): void {
-    this._currentBooks.set(
+    this.books.next(
       this.BOOKS.filter((book) => {
         return book.titulo.toLowerCase().includes(searchTerm.toLowerCase());
       })
