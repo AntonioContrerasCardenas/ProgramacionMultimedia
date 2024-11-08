@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BookServiceService } from '../../../core/services/book-service.service';
 
 @Component({
