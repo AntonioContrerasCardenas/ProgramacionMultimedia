@@ -12,5 +12,6 @@ import { AsyncPipe } from '@angular/common';
 export class BookListComponent {
   private booksService = inject(BookServiceService);
 
+  public name = 'Antonio';
   public books$ = this.booksService.books$;
 }
