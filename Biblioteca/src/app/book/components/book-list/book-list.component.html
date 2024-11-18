@@ -1,11 +1,8 @@
-@let bookss$ = books$|async; @let greeting = 'Hello, ' + name + '!';
 <!-- 
 @for (book of (books$ | async); track book.isbn) {
 <p>{{ book.titulo }}</p>
 } -->
 
-@for (book of bookss$; track book.isbn) {
-<p>{{ book.titulo }}</p>
+@for (book of (books$ | async); track book.isbn) {
+<p>-{{ book.titulo }}</p>
 }
-
-<p>{{ name }}</p>

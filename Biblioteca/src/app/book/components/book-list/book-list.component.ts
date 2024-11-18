@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { BookServiceService } from '../../../core/services/book-service.service';
 import { AsyncPipe } from '@angular/common';
 
@@ -9,9 +9,11 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.scss',
 })
-export class BookListComponent {
+export class BookListComponent implements OnInit {
   private booksService = inject(BookServiceService);
-
-  public name = 'Antonio';
   public books$ = this.booksService.books$;
+
+  ngOnInit(): void {
+    this.booksService.getBooks();
+  }
 }
