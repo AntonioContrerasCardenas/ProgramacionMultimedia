@@ -9,11 +9,7 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.scss',
 })
-export class BookListComponent implements OnInit {
+export class BookListComponent {
   private booksService = inject(BookServiceService);
   public books$ = this.booksService.books$;
-
-  ngOnInit(): void {
-    this.booksService.getBooks();
-  }
 }

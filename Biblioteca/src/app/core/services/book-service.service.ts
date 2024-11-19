@@ -15,14 +15,14 @@ export class BookServiceService {
 
   public books$ = this.books.asObservable();
 
-  public getBooks(): void {
-    this.http
+  public getBooks(): Observable<BookInterface[]> {
+    return this.http
       .get<GetBooksResponse>(
         'https://openlibrary.org/search/authors.json?q=programming&limit=20'
       )
       .pipe(
         map((response: GetBooksResponse) => {
-          return response.docs.map((doc) => {
+          return response.docs.map((doc): BookInterface => {
             return {
               titulo: doc.name,
               autor: doc.top_work,
@@ -35,8 +35,7 @@ export class BookServiceService {
           console.error(error);
           return of([]);
         })
-      )
-      .subscribe((books) => this.setBooks(books));
+      );
   }
 
   public setBooks(data: BookInterface[]) {
