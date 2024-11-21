@@ -10,11 +10,6 @@ import { BookServiceService } from '../../../core/services/book-service.service'
   templateUrl: './book-logged-page.component.html',
   styleUrl: './book-logged-page.component.scss',
 })
-export class BookLoggedPageComponent implements OnInit {
+export class BookLoggedPageComponent {
   private booksService = inject(BookServiceService);
-  ngOnInit(): void {
-    this.booksService.getBooks().subscribe((data) => {
-      this.booksService.setBooks(data);
-    });
-  }
 }

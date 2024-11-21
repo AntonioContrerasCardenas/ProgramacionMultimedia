@@ -15,7 +15,13 @@ export class BookServiceService {
 
   public books$ = this.books.asObservable();
 
-  public getBooks(): Observable<BookInterface[]> {
+  constructor() {
+    this.getBooks().subscribe((books) => {
+      this.setBooks(books);
+    });
+  }
+
+  private getBooks(): Observable<BookInterface[]> {
     return this.http
       .get<GetBooksResponse>(
         'https://openlibrary.org/search/authors.json?q=programming&limit=20'
@@ -38,7 +44,7 @@ export class BookServiceService {
       );
   }
 
-  public setBooks(data: BookInterface[]) {
+  private setBooks(data: BookInterface[]) {
     this.books.next(data);
     this.BOOKS = data;
   }
