@@ -6,7 +6,7 @@ export interface GetCommentResponse {
 }
 
 export interface Comment {
-  id: number;
+  id?: number;
   title: string;
   body: string;
 }

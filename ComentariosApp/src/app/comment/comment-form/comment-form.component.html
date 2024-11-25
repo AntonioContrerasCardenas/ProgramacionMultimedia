@@ -1,0 +1,26 @@
+<h1>Create Comment</h1>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit(title.value, body.value)">
+  <input
+    type="text"
+    formControlName="title"
+    id="title"
+    name="title"
+    placeholder="Write the title"
+    #title
+  />
+  @if (isInValidField('title')) {
+  <span class="form_error">{{ getFieldError("title") }}</span>
+  }
+  <input
+    type="text"
+    formControlName="body"
+    id="body"
+    name="body"
+    placeholder="Write the body"
+    #body
+  />
+  @if (isInValidField('body')) {
+  <span class="form_error">{{ getFieldError("body") }}</span>
+  }
+  <button class="btn" [disabled]="myForm.invalid" type="submit">Create</button>
+</form>

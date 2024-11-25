@@ -34,12 +34,14 @@ export class CommentService {
         })
       )
       .subscribe((comments: Comment[]) => {
-        this.comments = comments;
+        this.comments = comments.slice(0, 10);
         this.commentSubject.next(this.comments);
       });
   }
 
   public addComment(comment: Comment): void {
+    comment.id = this.comments.length + 1;
+    console.log({ comment });
     this.comments.push(comment);
     this.commentSubject.next([...this.comments]);
   }

@@ -1,0 +1,16 @@
+<h1><strong>TITLE: </strong>{{ comment.title }}</h1>
+<p>
+  <strong>BODY:</strong>
+  {{ comment.body }}
+</p>
+<div>
+  <button (click)="updatedClick = !updatedClick">Update me</button>
+  <button class="btn_danger" (click)="commentDelete(comment.id!)">
+    Delete me
+  </button>
+</div>
+@if (updatedClick) {
+<div>
+  <p>Hola</p>
+</div>
+}

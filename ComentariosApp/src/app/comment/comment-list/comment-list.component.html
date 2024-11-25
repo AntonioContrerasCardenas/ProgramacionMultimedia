@@ -1,0 +1,12 @@
+<main class="container">
+  <comment-form class="card" (commentNew)="addComment($event)" />
+  <!-- <button (click)="updateComments()">Update comments</button> -->
+
+  @for (comment of comments; track comment.id) {
+  <comment-item
+    class="card"
+    [comment]="comment"
+    (commentDeleteEmit)="deleteComment($event)"
+  />
+  }
+</main>
