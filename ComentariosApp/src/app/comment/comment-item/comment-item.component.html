@@ -10,7 +10,19 @@
   </button>
 </div>
 @if (updatedClick) {
-<div>
-  <p>Hola</p>
-</div>
+
+<form [formGroup]="myForm" (ngSubmit)="onSubmit(title.value, body.value)">
+  <input type="text" formControlName="title" id="title" name="title" #title />
+  @if (isInValidField('title')) {
+  <span class="form_error">{{ getFieldError("title") }}</span>
+  }
+  <input type="text" formControlName="body" id="body" name="body" #body />
+  @if (isInValidField('body')) {
+  <span class="form_error">{{ getFieldError("body") }}</span>
+  }
+  <button class="btn" [disabled]="myForm.invalid" type="submit">
+    Update me
+  </button>
+</form>
+
 }
