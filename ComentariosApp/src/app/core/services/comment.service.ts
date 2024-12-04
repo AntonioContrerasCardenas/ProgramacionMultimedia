@@ -39,6 +39,31 @@ export class CommentService {
       });
   }
 
+  private loadComments2() {
+    this.http
+      .get<GetCommentResponse[]>(this.apiUrl)
+      .pipe(
+        map((commen: GetCommentResponse[]): Comment[] => {
+          return commen.map((c: GetCommentResponse): Comment => {
+            return {
+              id: c.id,
+              title: c.title,
+              body: c.body,
+            };
+          });
+        })
+      )
+      .subscribe({
+        next: (comments: Comment[]) => {
+          this.comments = comments;
+          this.commentSubject.next([...this.comments]);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
   public addComment(comment: Comment): void {
     comment.id = this.comments.length + 1;
     console.log({ comment });
