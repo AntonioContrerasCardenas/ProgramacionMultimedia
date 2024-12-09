@@ -1,0 +1,16 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #ffffff;
+  border-bottom: 2px solid #d6caca;
+  img {
+    max-height: 70px;
+    object-fit: contain;
+  }
+}
+
+a {
+  font-size: 2rem;
+}

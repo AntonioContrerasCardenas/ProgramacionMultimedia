@@ -1,0 +1,20 @@
+<section class="flex_center column">
+  <h1>Ejercicio3</h1>
+  <h2>Nombres de personas:</h2>
+  <div>
+    <button (click)="toggleBtnHidde()">
+      {{ hidden ? "Mostrar" : "Ocultar" }} nombres
+    </button>
+    <button (click)="toggleBtnClass()">
+      {{ isClassAplicated ? "Deshacer" : "Aplicar" }} estilos
+    </button>
+  </div>
+
+  @if (!hidden) {
+  <ul [ngClass]="{ border: isClassAplicated }">
+    @for (persona of personas; track $index) {
+    <li [ngClass]="isClassAplicated ? 'border' : ''">{{ persona.nombre }}</li>
+    }
+  </ul>
+  }
+</section>
