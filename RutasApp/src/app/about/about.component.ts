@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../core/services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-about',
@@ -13,6 +13,7 @@ export class AboutComponent implements OnInit {
   public name: string = '';
   private authService = inject(AuthService);
   private router = inject(Router);
+  // private route = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.name = this.authService.getUsername();
@@ -21,5 +22,8 @@ export class AboutComponent implements OnInit {
   public logout(): void {
     this.authService.logout();
     this.router.navigate(['/']);
+    // this.route.params.subscribe((p) => {
+    //   p['id'];
+    // });
   }
 }

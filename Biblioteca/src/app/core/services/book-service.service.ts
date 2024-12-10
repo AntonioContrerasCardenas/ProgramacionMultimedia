@@ -1,6 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { BookInterface, GetBooksResponse } from '../interfaces/book.interface';
-import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  of,
+  Subject,
+} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
