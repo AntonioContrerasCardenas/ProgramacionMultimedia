@@ -1,0 +1,26 @@
+<h1>Usuario y contraseña para entrar</h1>
+<h2>Usuario: admin</h2>
+<h2>Contraseña: admin</h2>
+@if(mensajeIngreso != ''){
+<h2>{{ mensajeIngreso }}</h2>
+}
+<form
+  [formGroup]="myForm"
+  (ngSubmit)="onSubmit(username.value, password.value)"
+>
+  <input
+    type="text"
+    formControlName="username"
+    #username
+    name="username"
+    placeholder="Usuario"
+  />
+  <input
+    type="password"
+    formControlName="password"
+    #password
+    name="password"
+    placeholder="Contraseña"
+  />
+  <button type="submit">Entrar</button>
+</form>
