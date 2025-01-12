@@ -2,8 +2,9 @@
 
 import axios, { isAxiosError } from 'axios'
 import { MapboxReponse } from '../interfaces/mapbox.interfaces'
+import { MAPBOX_TOKEN } from '../config/config'
 
-const mapboxToken = process.env.MAPBOX_TOKEN
+const mapboxToken = MAPBOX_TOKEN
 if (!mapboxToken) {
   console.log('Debes ingresar un token de mapbox')
   process.exit(1)

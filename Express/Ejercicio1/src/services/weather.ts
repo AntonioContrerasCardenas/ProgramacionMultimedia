@@ -2,8 +2,9 @@
 
 import axios, { isAxiosError } from 'axios'
 import { Current, WeatherStackResponse } from '../interfaces/weather.response'
+import { WEATHERSTACK_API_KEY } from '../config/config'
 
-const weatherApiKey = process.env.WEATHERSTACK_API_KEY
+const weatherApiKey = WEATHERSTACK_API_KEY
 
 export const getWeather = async (
   latitude: number,
