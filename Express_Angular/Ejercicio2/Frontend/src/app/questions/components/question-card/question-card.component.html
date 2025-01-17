@@ -1,0 +1,22 @@
+<div class="card">
+  @if (question.id) {
+  <h2 class="question">{{ question.question }}</h2>
+
+  <div class="options">
+    @for (option of question.options; track $index) {
+    <button
+      class="option"
+      (click)="checkAnswer(option)"
+      [ngClass]="{
+        correct: isCorrect(option) && isSelected(option),
+        incorrect: !isCorrect(option) && isSelected(option)
+      }"
+    >
+      {{ option }}
+    </button>
+    }
+  </div>
+  }@else {
+  <h2 class="question">Please click the button</h2>
+  }
+</div>

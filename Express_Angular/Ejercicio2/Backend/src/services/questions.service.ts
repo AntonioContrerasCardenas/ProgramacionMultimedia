@@ -150,7 +150,8 @@ class QuestionsService {
   }
 
   getRandomsQuestion(limit: number): Question[] | null {
-    if (limit > this.questions.length) return null
+    if (limit > this.questions.length)
+      throw new Error('Limit is greater than the number of questions')
 
     const questions = []
 
@@ -166,7 +167,7 @@ class QuestionsService {
       (question) => question.category === category
     )
 
-    if (questionByCategory.length === 0) return null
+    if (questionByCategory.length === 0) throw new Error('Category not found')
 
     return questionByCategory[0]
   }
@@ -176,9 +177,10 @@ class QuestionsService {
       (question) => question.category === category
     )
 
-    if (questionByCategory.length === 0) return null
+    if (questionByCategory.length === 0) throw new Error('Category not found')
 
-    if (limit > questionByCategory.length) return null
+    if (limit > questionByCategory.length)
+      throw new Error('Limit is greater than the number of questions')
 
     const questions = []
 

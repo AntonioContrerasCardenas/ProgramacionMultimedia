@@ -1,14 +1,12 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import {
   getQuestionByCategory,
-  getQuestionsByCategory,
   getRandomQuestion,
-  getRandomsQuestion,
 } from '../controllers/question.controller'
 
 const router = express.Router()
 
 router.get('/random', getRandomQuestion)
-router.get('/categoria/:categoria', getQuestionByCategory)
+router.get('/category', getQuestionByCategory)
 
 export default router
