@@ -11,6 +11,7 @@
         correct: isCorrect(option) && isSelected(option),
         incorrect: !isCorrect(option) && isSelected(option)
       }"
+      [disabled]="isSelected(option) || isCorrectAnswerSelected"
     >
       {{ option }}
     </button>
