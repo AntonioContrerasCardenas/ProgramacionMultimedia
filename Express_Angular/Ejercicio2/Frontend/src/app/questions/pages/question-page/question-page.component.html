@@ -1,4 +1,7 @@
 <article>
   <button (click)="generateQuestions()">Generate a question!!</button>
+
+  @if (questions.length > 0) { @for (question of questions; track question.id) {
   <question-card [question]="question" />
+  } }
 </article>

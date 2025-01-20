@@ -1,47 +1,62 @@
-import { Response, Request } from 'express'
+import { Response, Request, NextFunction } from 'express'
 import QuestionsService from '../services/questions.service'
 
 export const getRandomQuestion = (req: Request, res: Response) => {
   try {
-    const limit = +req.body.limit
+    const { limit } = req.query
 
-    if (!limit) {
+    const numericLimit = parseInt(limit as string)
+
+    console.log(numericLimit)
+    if (!numericLimit) {
       const question = QuestionsService.getRandomQuestion()
-      res.status(200).send(question)
+      res.status(200).send({ questions: [question] })
+      return
     }
 
-    const question = QuestionsService.getRandomsQuestion(limit)
+    const question = QuestionsService.getRandomsQuestion(+numericLimit)
     if (!question) {
       res.status(404).send({ error: 'An unexpected error occurred' })
+      return
     }
-    res.status(200).send(question)
+    res.status(200).send({ questions: question })
     return
   } catch (error: any) {
     res.status(404).send({ error: error.message })
+    return
   }
 }
 
 export const getQuestionByCategory = (req: Request, res: Response) => {
   try {
-    const { category, limit } = req.body
+    const { category, limit } = req.query
 
-    if (!limit) {
-      const question = QuestionsService.getQuestionByCategory(category)
+    const categoryString = category as string
+    const limitString = limit as string
+    console.log(categoryString)
+
+    if (!limitString) {
+      const question = QuestionsService.getQuestionByCategory(categoryString)
       if (!question) {
         res.status(404).send('Not found')
         return
       }
-      res.status(200).send(question)
+      res.status(200).send({ questions: [question] })
+      return
     }
 
-    const question = QuestionsService.getQuestionsByCategory(category, limit)
+    const question = QuestionsService.getQuestionsByCategory(
+      categoryString,
+      +limitString
+    )
     if (!question) {
       res.status(404).send('An unexpected error occurred')
       return
     }
-    res.status(200).send(question)
+    res.status(200).send({ questions: question })
     return
   } catch (error: any) {
     res.status(404).send({ error: error.message })
+    return
   }
 }

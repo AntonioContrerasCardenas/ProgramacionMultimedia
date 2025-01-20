@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { QuestionsService } from '../../../core/services/questions.service';
 import { Question } from '../../../core/interfaces/questions.interfaces';
 import { QuestionCardComponent } from '../../components/question-card/question-card.component';
@@ -10,15 +10,17 @@ import { QuestionCardComponent } from '../../components/question-card/question-c
   templateUrl: './question-page.component.html',
   styleUrl: './question-page.component.scss',
 })
-export class QuestionPageComponent {
+export class QuestionPageComponent implements OnInit {
   private questionService: QuestionsService = inject(QuestionsService);
-  public question: Question = {} as Question;
+  public questions: Question[] = [];
+
+  ngOnInit(): void {
+    this.questionService.questions$.subscribe((questions) => {
+      this.questions = questions;
+    });
+  }
 
   generateQuestions(): void {
-    this.questionService
-      .generateRandomQuestion()
-      .subscribe((data: Question) => {
-        this.question = data;
-      });
+    this.questionService.getRandomsQuestions();
   }
 }

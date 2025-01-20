@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { QuestionPageComponent } from '../../pages/question-page/question-page.component';
+import { QuestionsService } from '../../../core/services/questions.service';
 
 @Component({
   selector: 'question-layout',

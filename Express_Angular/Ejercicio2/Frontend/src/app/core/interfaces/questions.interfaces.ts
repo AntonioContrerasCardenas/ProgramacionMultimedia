@@ -1,3 +1,7 @@
+export interface QuestionResponse {
+  questions: Question[];
+}
+
 export interface Question {
   id: number;
   category: Category;
