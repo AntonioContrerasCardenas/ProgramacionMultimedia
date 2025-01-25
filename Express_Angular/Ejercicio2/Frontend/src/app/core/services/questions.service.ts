@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Question, QuestionResponse } from '../interfaces/questions.interfaces';
+import {
+  Question,
+  QuestionResponse,
+  QuestionsByCategoryPaginatedResponse,
+} from '../interfaces/questions.interfaces';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -19,9 +23,11 @@ export class QuestionsService {
   }
 
   getRandomsQuestions(): void {
+    console.log({ questions: this._questions });
     this.generateRandomQuestions()
       .pipe(
         map((response) => {
+          console.log(response.questions);
           return response.questions;
         }),
         catchError((error) => {
@@ -39,5 +45,15 @@ export class QuestionsService {
 
     //Para mas preguntas :
     //return this.http.get<QuestionResponse>(`${this.apiUrl}/random?limit=3`);
+  }
+
+  getQuestionsByCategory(
+    categoryId: string,
+    page: number = 1,
+    limit: number = 2
+  ): Observable<QuestionsByCategoryPaginatedResponse> {
+    return this.http.get<QuestionsByCategoryPaginatedResponse>(
+      `${this.apiUrl}/category/paginated?limit=${limit}&category=${categoryId}&page=${page}`
+    );
   }
 }

@@ -4,6 +4,7 @@ import cors from 'cors'
 import { PORT } from './config/config'
 import connectToDatabase from './config/db'
 import seedDatabase from './config/seed'
+import category from './routes/category'
 
 const app = express()
 
@@ -11,6 +12,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/api/questions', questions)
+app.use('/api/categories', category)
 
 app.get('/', (req, res) => {
   res.send('Hello World')

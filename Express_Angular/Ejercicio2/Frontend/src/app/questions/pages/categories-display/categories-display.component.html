@@ -1,0 +1,9 @@
+<h2>Select a category and play a game trying to guees the question</h2>
+
+<div class="categories">
+  @for (category of categories; track category._id) {
+  <button class="category" (click)="selectCategory(category._id)">
+    {{ category.name.toLocaleUpperCase() }}
+  </button>
+  }
+</div>

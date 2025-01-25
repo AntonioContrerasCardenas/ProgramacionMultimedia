@@ -2,9 +2,11 @@ import { Response, Request } from 'express'
 import {
   SgetQuestionByCategory,
   SgetQuestionsByCategory,
+  SgetQuestionsByCategoryWithPagination,
   SgetRandomQuestion,
   SgetRandomsQuestion,
 } from '../services/questions.service'
+import { Question } from '../models/Question'
 
 export const getRandomQuestion = async (req: Request, res: Response) => {
   try {
@@ -37,7 +39,6 @@ export const getQuestionByCategory = async (req: Request, res: Response) => {
 
     const categoryString = category as string
     const limitString = limit as string
-    console.log(categoryString)
 
     if (!limitString) {
       const question = await SgetQuestionByCategory(categoryString)
@@ -55,6 +56,42 @@ export const getQuestionByCategory = async (req: Request, res: Response) => {
       return
     }
     res.status(200).send({ questions: question })
+    return
+  } catch (error: any) {
+    res.status(404).send({ error: error.message })
+    return
+  }
+}
+
+export const getQuestionsByCategory = async (req: Request, res: Response) => {
+  try {
+    const { category, page = 1, limit = 6 } = req.query
+
+    const categoryString = category as string
+    const numericPage = Number(page)
+    const numericLimit = Number(limit)
+
+    if (!categoryString) {
+      res.status(404).send({ error: 'Category not found' })
+      return
+    }
+
+    const questions = await SgetQuestionsByCategoryWithPagination(
+      categoryString,
+      numericPage,
+      numericLimit
+    )
+
+    if (!questions || questions.length === 0) {
+      res.status(200).send({ error: 'No have questions' })
+      return
+    }
+
+    const totalQuestions = await Question.countDocuments({
+      categoryId: categoryString,
+    })
+
+    res.status(200).send({ questions, total: totalQuestions })
     return
   } catch (error: any) {
     res.status(404).send({ error: error.message })

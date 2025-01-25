@@ -31,3 +31,21 @@ export const SgetQuestionsByCategory = async (
   const category = await Category.findOne({ name: categoryId })
   return Question.find({ categoryId: category }).limit(limit)
 }
+
+export const SgetQuestionsByCategoryWithPagination = async (
+  category: string,
+  page: number,
+  limit: number
+) => {
+  const categoryFound = await Category.findOne({ _id: category })
+
+  if (!categoryFound) throw new Error('Category not found')
+
+  const skip = (page - 1) * limit
+
+  const questions = await Question.find({ categoryId: categoryFound })
+    .skip(skip)
+    .limit(limit)
+
+  return questions
+}
