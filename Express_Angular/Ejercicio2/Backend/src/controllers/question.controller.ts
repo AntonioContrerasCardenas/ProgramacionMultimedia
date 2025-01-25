@@ -1,20 +1,24 @@
-import { Response, Request, NextFunction } from 'express'
-import QuestionsService from '../services/questions.service'
+import { Response, Request } from 'express'
+import {
+  SgetQuestionByCategory,
+  SgetQuestionsByCategory,
+  SgetRandomQuestion,
+  SgetRandomsQuestion,
+} from '../services/questions.service'
 
-export const getRandomQuestion = (req: Request, res: Response) => {
+export const getRandomQuestion = async (req: Request, res: Response) => {
   try {
     const { limit } = req.query
 
     const numericLimit = parseInt(limit as string)
 
-    console.log(numericLimit)
     if (!numericLimit) {
-      const question = QuestionsService.getRandomQuestion()
+      const question = await SgetRandomQuestion()
       res.status(200).send({ questions: [question] })
       return
     }
 
-    const question = QuestionsService.getRandomsQuestion(+numericLimit)
+    const question = await SgetRandomsQuestion(+numericLimit)
     if (!question) {
       res.status(404).send({ error: 'An unexpected error occurred' })
       return
@@ -27,7 +31,7 @@ export const getRandomQuestion = (req: Request, res: Response) => {
   }
 }
 
-export const getQuestionByCategory = (req: Request, res: Response) => {
+export const getQuestionByCategory = async (req: Request, res: Response) => {
   try {
     const { category, limit } = req.query
 
@@ -36,7 +40,7 @@ export const getQuestionByCategory = (req: Request, res: Response) => {
     console.log(categoryString)
 
     if (!limitString) {
-      const question = QuestionsService.getQuestionByCategory(categoryString)
+      const question = await SgetQuestionByCategory(categoryString)
       if (!question) {
         res.status(404).send('Not found')
         return
@@ -45,10 +49,7 @@ export const getQuestionByCategory = (req: Request, res: Response) => {
       return
     }
 
-    const question = QuestionsService.getQuestionsByCategory(
-      categoryString,
-      +limitString
-    )
+    const question = await SgetQuestionsByCategory(categoryString, +limitString)
     if (!question) {
       res.status(404).send('An unexpected error occurred')
       return

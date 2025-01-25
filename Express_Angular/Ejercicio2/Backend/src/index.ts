@@ -1,10 +1,9 @@
 import express from 'express'
 import questions from './routes/questions'
 import cors from 'cors'
-
-process.loadEnvFile()
-
-export const { PORT } = process.env
+import { PORT } from './config/config'
+import connectToDatabase from './config/db'
+import seedDatabase from './config/seed'
 
 const app = express()
 
@@ -17,6 +16,8 @@ app.get('/', (req, res) => {
   res.send('Hello World')
 })
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`)
+  await connectToDatabase()
+  // await seedDatabase()    descomentar esta linea en caso de querer crear la base de datos
 })
