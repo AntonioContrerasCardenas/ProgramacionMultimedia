@@ -76,22 +76,19 @@ export const getQuestionsByCategory = async (req: Request, res: Response) => {
       return
     }
 
-    const questions = await SgetQuestionsByCategoryWithPagination(
-      categoryString,
-      numericPage,
-      numericLimit
-    )
+    const { questions, totalPages } =
+      await SgetQuestionsByCategoryWithPagination(
+        categoryString,
+        numericPage,
+        numericLimit
+      )
 
     if (!questions || questions.length === 0) {
       res.status(200).send({ error: 'No have questions' })
       return
     }
 
-    const totalQuestions = await Question.countDocuments({
-      categoryId: categoryString,
-    })
-
-    res.status(200).send({ questions, total: totalQuestions })
+    res.status(200).send({ questions, totalPages })
     return
   } catch (error: any) {
     res.status(404).send({ error: error.message })

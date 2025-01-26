@@ -2,14 +2,6 @@ export interface QuestionResponse {
   questions: Question[];
 }
 
-export interface Question {
-  id: number;
-  category: Category;
-  question: string;
-  answer: string;
-  options: string[];
-}
-
 export interface AllCategoriesResponse {
   categories: Category[];
 }
@@ -21,7 +13,7 @@ export interface Category {
 
 export interface QuestionsByCategoryPaginatedResponse {
   questions: Question[];
-  total: number;
+  totalPages: number;
 }
 
 export interface Question {

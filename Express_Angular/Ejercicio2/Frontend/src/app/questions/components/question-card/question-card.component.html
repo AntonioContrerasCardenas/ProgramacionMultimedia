@@ -1,5 +1,5 @@
 <div class="card">
-  @if (question.id) {
+  @if (question._id) {
   <h2 class="question">{{ question.question }}</h2>
 
   <div class="options">
@@ -17,7 +17,5 @@
     </button>
     }
   </div>
-  }@else {
-  <h2 class="question">Please click the button</h2>
   }
 </div>

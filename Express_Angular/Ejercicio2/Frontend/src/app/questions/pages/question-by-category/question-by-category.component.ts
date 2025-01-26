@@ -2,22 +2,26 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Question } from '../../../core/interfaces/questions.interfaces';
 import { QuestionsService } from '../../../core/services/questions.service';
+import { QuestionCardComponent } from '../../components/question-card/question-card.component';
+import { takeUntil } from 'rxjs';
+import { AutoDestroyService } from '../../../core/services/auto-destroy.service';
 
 @Component({
   selector: 'app-question-by-category',
   standalone: true,
-  imports: [],
+  imports: [QuestionCardComponent],
   templateUrl: './question-by-category.component.html',
   styleUrl: './question-by-category.component.scss',
 })
 export class QuestionByCategoryComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private questionService = inject(QuestionsService);
+  private autoDestroyService = inject(AutoDestroyService);
 
   public categoryId: string = '';
   public questions: Question[] = [];
-  private currentPage: number = 1;
-  private totalQuestions: number = 0;
+  public currentPage: number = 1;
+  private totalPages: number = 0;
   private questionsPerPage: number = 2;
 
   ngOnInit(): void {
@@ -35,22 +39,31 @@ export class QuestionByCategoryComponent implements OnInit {
           this.currentPage,
           this.questionsPerPage
         )
+        .pipe(takeUntil(this.autoDestroyService))
         .subscribe((response) => {
           this.questions = response.questions;
-          this.totalQuestions = response.total;
+          this.totalPages = response.totalPages;
         });
     }
   }
 
+  haveNextPage(): boolean {
+    return this.currentPage < this.totalPages;
+  }
+
   nextPage() {
-    if (this.currentPage * this.questionsPerPage < this.totalQuestions) {
+    if (this.haveNextPage()) {
       this.currentPage++;
       this.loadQuestions();
     }
   }
 
+  havePrevPage(): boolean {
+    return this.currentPage > 1;
+  }
+
   prevPage() {
-    if (this.currentPage > 1) {
+    if (this.havePrevPage()) {
       this.currentPage--;
       this.loadQuestions();
     }

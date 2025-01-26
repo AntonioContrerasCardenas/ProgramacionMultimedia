@@ -41,11 +41,17 @@ export const SgetQuestionsByCategoryWithPagination = async (
 
   if (!categoryFound) throw new Error('Category not found')
 
+  const totalQuestions = await Question.countDocuments({
+    categoryId: categoryFound,
+  })
+
+  const totalPages = Math.ceil(totalQuestions / limit)
+
   const skip = (page - 1) * limit
 
   const questions = await Question.find({ categoryId: categoryFound })
     .skip(skip)
     .limit(limit)
 
-  return questions
+  return { questions, totalPages }
 }

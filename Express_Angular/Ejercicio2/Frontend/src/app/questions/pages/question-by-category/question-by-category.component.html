@@ -1,1 +1,18 @@
-<p>{{ categoryId }}</p>
+<div class="questions-container">
+  @if (questions) { @for (question of questions; track question._id) {
+  <question-card [question]="question" />
+  }
+
+  <div class="pagination">
+    <button (click)="prevPage()" class="prev-page" [disabled]="!havePrevPage()">
+      ◀ Previous
+    </button>
+    <span class="current-page">{{ currentPage }}</span>
+    <button (click)="nextPage()" class="next-page" [disabled]="!haveNextPage()">
+      Next ▶
+    </button>
+  </div>
+  }@else {
+  <h2>No questions found</h2>
+  }
+</div>
