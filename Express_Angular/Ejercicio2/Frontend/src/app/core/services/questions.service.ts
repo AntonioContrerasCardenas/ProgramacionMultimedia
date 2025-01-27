@@ -23,11 +23,11 @@ export class QuestionsService {
   }
 
   getRandomsQuestions(): void {
-    console.log({ questions: this._questions });
+    // console.log({ questions: this._questions });
     this.generateRandomQuestions()
       .pipe(
         map((response) => {
-          console.log(response.questions);
+          // console.log(response.questions);
           return response.questions;
         }),
         catchError((error) => {

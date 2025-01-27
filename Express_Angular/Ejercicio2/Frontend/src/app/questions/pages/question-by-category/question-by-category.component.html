@@ -1,6 +1,25 @@
 <div class="questions-container">
-  @if (questions) { @for (question of questions; track question._id) {
-  <question-card [question]="question" />
+  @if (questions) {
+
+  <div class="score">
+    <h3
+      [ngClass]="{
+        success:
+          questionsAnswered > 0 && questionsCorrect > questionsAnswered / 2,
+        failure:
+          questionsAnswered > 0 && questionsCorrect <= questionsAnswered / 2,
+        neutral: questionsAnswered === 0
+      }"
+    >
+      Puntuación: {{ questionsCorrect }} de {{ questionsAnswered }} correctas
+    </h3>
+  </div>
+
+  @for (question of questions; track question._id) {
+  <question-card
+    (questionAnswered)="onQuestionAnswered($event)"
+    [question]="question"
+  />
   }
 
   <div class="pagination">

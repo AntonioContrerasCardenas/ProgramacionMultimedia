@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { Question } from '../../../core/interfaces/questions.interfaces';
@@ -20,6 +22,8 @@ export class QuestionCardComponent implements OnChanges {
   @Input({ required: true })
   question: Question = {} as Question;
 
+  @Output() questionAnswered = new EventEmitter<boolean>();
+
   public optionsSelected: string[] = [];
   public isCorrectAnswerSelected: boolean = false;
 
@@ -31,12 +35,14 @@ export class QuestionCardComponent implements OnChanges {
   }
 
   public checkAnswer(option: string) {
-    if (this.isCorrect(option)) {
+    this.optionsSelected = [...this.question.options];
+
+    const isCorrect = this.isCorrect(option);
+    if (isCorrect) {
       this.isCorrectAnswerSelected = true;
     }
-    if (!this.optionsSelected.includes(option)) {
-      this.optionsSelected.push(option);
-    }
+
+    this.questionAnswered.emit(isCorrect);
   }
 
   public isCorrect(option: string): boolean {

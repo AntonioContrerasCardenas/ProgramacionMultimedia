@@ -5,11 +5,12 @@ import { QuestionsService } from '../../../core/services/questions.service';
 import { QuestionCardComponent } from '../../components/question-card/question-card.component';
 import { takeUntil } from 'rxjs';
 import { AutoDestroyService } from '../../../core/services/auto-destroy.service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-question-by-category',
   standalone: true,
-  imports: [QuestionCardComponent],
+  imports: [QuestionCardComponent, NgClass],
   templateUrl: './question-by-category.component.html',
   styleUrl: './question-by-category.component.scss',
 })
@@ -24,11 +25,19 @@ export class QuestionByCategoryComponent implements OnInit {
   private totalPages: number = 0;
   private questionsPerPage: number = 2;
 
+  public questionsAnswered: number = 0;
+  public questionsCorrect: number = 0;
+
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.autoDestroy$)).subscribe((params) => {
       this.categoryId = params['id'];
       if (this.categoryId) this.loadQuestions();
     });
+  }
+
+  onQuestionAnswered(isCorrect: boolean) {
+    this.questionsAnswered++;
+    isCorrect ? this.questionsCorrect++ : null;
   }
 
   loadQuestions() {
