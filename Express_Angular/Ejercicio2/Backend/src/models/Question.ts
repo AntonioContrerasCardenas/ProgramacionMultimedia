@@ -11,7 +11,11 @@ const QuestionSchema = new Schema<QuestionI>({
   question: { type: String, required: true },
   answer: { type: String, required: true },
   options: { type: [String], required: true },
-  categoryId: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
 })
 
 export const Question = model<QuestionI>('Question', QuestionSchema)

@@ -1,26 +1,26 @@
 import { Response, Request } from 'express'
 import {
-  SgetQuestionByCategory,
-  SgetQuestionsByCategory,
-  SgetQuestionsByCategoryWithPagination,
-  SgetRandomQuestion,
-  SgetRandomsQuestion,
+  fetchQuestionByCategory,
+  fetchQuestionsByCategory,
+  fetchQuestionsByCategoryWithPagination,
+  fetchRandomQuestion,
+  fetchRandomQuestions,
 } from '../services/questions.service'
 import { Question } from '../models/Question'
 
-export const getRandomQuestion = async (req: Request, res: Response) => {
+export const getRandomQuestions = async (req: Request, res: Response) => {
   try {
     const { limit } = req.query
 
     const numericLimit = parseInt(limit as string)
 
     if (!numericLimit) {
-      const question = await SgetRandomQuestion()
+      const question = await fetchRandomQuestion()
       res.status(200).send({ questions: [question] })
       return
     }
 
-    const question = await SgetRandomsQuestion(+numericLimit)
+    const question = await fetchRandomQuestions(+numericLimit)
     if (!question) {
       res.status(404).send({ error: 'An unexpected error occurred' })
       return
@@ -33,7 +33,7 @@ export const getRandomQuestion = async (req: Request, res: Response) => {
   }
 }
 
-export const getQuestionByCategory = async (req: Request, res: Response) => {
+export const getQuestionsByCategory = async (req: Request, res: Response) => {
   try {
     const { category, limit } = req.query
 
@@ -41,7 +41,7 @@ export const getQuestionByCategory = async (req: Request, res: Response) => {
     const limitString = limit as string
 
     if (!limitString) {
-      const question = await SgetQuestionByCategory(categoryString)
+      const question = await fetchQuestionByCategory(categoryString)
       if (!question) {
         res.status(404).send('Not found')
         return
@@ -50,7 +50,10 @@ export const getQuestionByCategory = async (req: Request, res: Response) => {
       return
     }
 
-    const question = await SgetQuestionsByCategory(categoryString, +limitString)
+    const question = await fetchQuestionsByCategory(
+      categoryString,
+      +limitString
+    )
     if (!question) {
       res.status(404).send('An unexpected error occurred')
       return
@@ -63,7 +66,10 @@ export const getQuestionByCategory = async (req: Request, res: Response) => {
   }
 }
 
-export const getQuestionsByCategory = async (req: Request, res: Response) => {
+export const getQuestionsByCategoryPaginated = async (
+  req: Request,
+  res: Response
+) => {
   try {
     const { category, page = 1, limit = 6 } = req.query
 
@@ -77,7 +83,7 @@ export const getQuestionsByCategory = async (req: Request, res: Response) => {
     }
 
     const { questions, totalPages } =
-      await SgetQuestionsByCategoryWithPagination(
+      await fetchQuestionsByCategoryWithPagination(
         categoryString,
         numericPage,
         numericLimit

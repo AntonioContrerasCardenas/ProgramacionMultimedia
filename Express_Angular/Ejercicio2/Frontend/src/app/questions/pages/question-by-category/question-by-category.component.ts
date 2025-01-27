@@ -16,7 +16,7 @@ import { AutoDestroyService } from '../../../core/services/auto-destroy.service'
 export class QuestionByCategoryComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private questionService = inject(QuestionsService);
-  private autoDestroyService = inject(AutoDestroyService);
+  private autoDestroy$ = inject(AutoDestroyService);
 
   public categoryId: string = '';
   public questions: Question[] = [];
@@ -25,7 +25,7 @@ export class QuestionByCategoryComponent implements OnInit {
   private questionsPerPage: number = 2;
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.route.params.pipe(takeUntil(this.autoDestroy$)).subscribe((params) => {
       this.categoryId = params['id'];
       if (this.categoryId) this.loadQuestions();
     });
@@ -39,7 +39,7 @@ export class QuestionByCategoryComponent implements OnInit {
           this.currentPage,
           this.questionsPerPage
         )
-        .pipe(takeUntil(this.autoDestroyService))
+        .pipe(takeUntil(this.autoDestroy$))
         .subscribe((response) => {
           this.questions = response.questions;
           this.totalPages = response.totalPages;

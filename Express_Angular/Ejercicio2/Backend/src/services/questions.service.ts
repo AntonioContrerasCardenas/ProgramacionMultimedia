@@ -1,14 +1,14 @@
 import { Category } from '../models/Category'
 import { Question } from '../models/Question'
 
-export const SgetRandomQuestion = async () => {
+export const fetchRandomQuestion = async () => {
   //   const numberQuestions = await Question.countDocuments()
   //   const random = Math.floor(Math.random() * numberQuestions)
   return Question.aggregate([{ $sample: { size: 1 } }])
   //return Question.findOne()
 }
 
-export const SgetRandomsQuestion = async (limit: number) => {
+export const fetchRandomQuestions = async (limit: number) => {
   const numberQuestions = await Question.countDocuments()
   if (limit > numberQuestions)
     throw new Error('Limit is greater than the number of questions')
@@ -16,7 +16,7 @@ export const SgetRandomsQuestion = async (limit: number) => {
   return Question.aggregate([{ $sample: { size: limit } }])
 }
 
-export const SgetQuestionByCategory = async (categoryId: string) => {
+export const fetchQuestionByCategory = async (categoryId: string) => {
   const category = await Category.findOne({ name: categoryId })
 
   if (!category) throw new Error('Category not found')
@@ -24,7 +24,7 @@ export const SgetQuestionByCategory = async (categoryId: string) => {
   return Question.findOne({ categoryId: category })
 }
 
-export const SgetQuestionsByCategory = async (
+export const fetchQuestionsByCategory = async (
   categoryId: string,
   limit: number
 ) => {
@@ -32,7 +32,7 @@ export const SgetQuestionsByCategory = async (
   return Question.find({ categoryId: category }).limit(limit)
 }
 
-export const SgetQuestionsByCategoryWithPagination = async (
+export const fetchQuestionsByCategoryWithPagination = async (
   category: string,
   page: number,
   limit: number

@@ -21,5 +21,6 @@ app.get('/', (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`)
   await connectToDatabase()
-  // await seedDatabase()    descomentar esta linea en caso de querer crear la base de datos
+  // descomentar esta linea en caso de querer crear la base de datos
+  //await seedDatabase()
 })
