@@ -18,6 +18,11 @@ app.get('/', (req, res) => {
   res.send('Hello World')
 })
 
+app.get('/api/seed' , async(req, res) => {
+  await seedDatabase()
+  res.send('Seeded')
+})
+
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`)
   await connectToDatabase()
