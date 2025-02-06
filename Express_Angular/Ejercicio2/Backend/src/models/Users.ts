@@ -1,11 +1,12 @@
-import { model, Schema } from 'mongoose'
+import { HydratedDocument, model, Schema } from 'mongoose'
 import validator from 'validator'
+import bcrypt from 'bcrypt'
 
-export interface IUser extends Document {
+export interface IUser {
   name: string
   email: string
   password: string
-  tokens: string[]
+  tokens: { token: string }[]
 }
 
 const UsersSchema = new Schema<IUser>({
@@ -29,10 +30,26 @@ const UsersSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
-  tokens: {
-    type: [String],
-    default: [],
-  },
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
+})
+
+UsersSchema.pre('save', async function (next) {
+  const user = this as HydratedDocument<IUser>
+
+  if (user.isModified('password')) {
+    const saltRounds = 10
+    const hash = await bcrypt.hash(user.password, saltRounds)
+    user.password = hash
+  }
+
+  next()
 })
 
 export const User = model<IUser>('User', UsersSchema)

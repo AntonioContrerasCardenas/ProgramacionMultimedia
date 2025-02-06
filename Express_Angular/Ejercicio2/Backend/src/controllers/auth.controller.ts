@@ -1,13 +1,16 @@
 import { Request, Response } from 'express'
+import { registerS } from '../services/auth.service'
 
 const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body
+    const { tokens, _id, ...user } = await registerS(name, email, password)
+    res.status(201).send(user)
   } catch (error: any) {
-    res.status(4009).send({ error: error.message })
+    res.status(400).send({ error: error.message })
   }
 }
 
 const login = async (req: Request, res: Response) => {}
 
-export default { register }
+export { register }
