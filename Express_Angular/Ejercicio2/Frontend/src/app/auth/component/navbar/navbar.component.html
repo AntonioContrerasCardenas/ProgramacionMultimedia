@@ -1,0 +1,9 @@
+<header>
+  <nav>
+    @for (item of menuItems; track $index) {
+    <button>
+      <a [routerLink]="item.routerLink">{{ item.label }}</a>
+    </button>
+    }
+  </nav>
+</header>

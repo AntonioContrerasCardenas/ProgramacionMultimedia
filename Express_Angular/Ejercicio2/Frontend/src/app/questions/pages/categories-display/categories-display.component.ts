@@ -19,7 +19,7 @@ export class CategoriesDisplayComponent implements OnInit {
   private router = inject(Router);
 
   selectCategory(categoryId: string) {
-    this.router.navigate(['/category', categoryId]);
+    this.router.navigate(['/home/questions', categoryId]);
   }
   ngOnInit(): void {
     this.categoryService

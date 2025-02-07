@@ -19,6 +19,11 @@ const UsersSchema = new Schema<IUser>({
     required: [true, 'Please provide a name'],
     unique: true,
     trim: true,
+    minlength: [3, 'Name must be at least 3 characters'],
+    validate: {
+      validator: (value: string) => /^[a-zA-Z\s]+$/.test(value),
+      message: 'Name must only contain letters and spaces',
+    },
   },
   email: {
     type: String,
@@ -33,8 +38,9 @@ const UsersSchema = new Schema<IUser>({
   password: {
     type: String,
     required: true,
-    minlength: 7,
+    minlength: 8,
     trim: true,
+    match: [/\d/, 'Password must contain at least one number'],
   },
   tokens: [
     {

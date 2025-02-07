@@ -1,11 +1,14 @@
 import { Routes } from '@angular/router';
 import { QuestionLayoutComponent } from './questions/layouts/question-layout/question-layout.component';
 import { AuthLayoutComponent } from './auth/layout/auth-layout/auth-layout.component';
+import { privateGuard } from './core/guards/private.guard';
+import { publicGuard } from './core/guards/public.guard';
 
 export const routes: Routes = [
   {
     path: 'auth',
     component: AuthLayoutComponent,
+    canActivate: [publicGuard],
     children: [
       {
         path: '',
@@ -15,8 +18,9 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'questions',
+    path: 'home',
     component: QuestionLayoutComponent,
+    canActivate: [privateGuard],
     children: [
       {
         path: '',

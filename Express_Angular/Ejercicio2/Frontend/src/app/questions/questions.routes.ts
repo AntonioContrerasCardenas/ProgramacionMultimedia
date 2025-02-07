@@ -8,7 +8,7 @@ export const QUESTIONS_ROUTES: Routes = [
     component: CategoriesDisplayComponent,
   },
   {
-    path: 'category/:id',
+    path: 'questions/:id',
     component: QuestionByCategoryComponent,
   },
 ];
