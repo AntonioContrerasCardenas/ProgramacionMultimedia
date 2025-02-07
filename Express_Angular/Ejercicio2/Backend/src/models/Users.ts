@@ -1,12 +1,16 @@
 import { HydratedDocument, model, Schema } from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { JWT_SECRET } from '../config/config'
 
-export interface IUser {
+export interface IUser extends Document {
   name: string
   email: string
   password: string
   tokens: { token: string }[]
+  comparePassword(password: string): Promise<boolean>
+  generateAuthToken(): string
 }
 
 const UsersSchema = new Schema<IUser>({
@@ -29,6 +33,8 @@ const UsersSchema = new Schema<IUser>({
   password: {
     type: String,
     required: true,
+    minlength: 7,
+    trim: true,
   },
   tokens: [
     {
@@ -51,5 +57,20 @@ UsersSchema.pre('save', async function (next) {
 
   next()
 })
+
+UsersSchema.methods.comparePassword = async function (password: string) {
+  return bcrypt.compare(password, this.password)
+}
+
+UsersSchema.methods.generateAuthToken = function () {
+  const user = this as HydratedDocument<IUser>
+  const token = jwt.sign(
+    { _id: user._id.toString(), email: user.email },
+    JWT_SECRET || 'secreto',
+    { expiresIn: '1h' }
+  )
+  user.tokens.push({ token })
+  return token
+}
 
 export const User = model<IUser>('User', UsersSchema)

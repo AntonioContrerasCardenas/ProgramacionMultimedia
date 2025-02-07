@@ -10,6 +10,19 @@ const registerS = async (name: string, email: string, password: string) => {
   return user.toObject()
 }
 
-const loginS = async (email: string, password: string) => {}
+const loginS = async (email: string, password: string) => {
+  const user = await User.findOne({ email })
+  if (!user) {
+    throw new Error('User not found')
+  }
+
+  const isPasswordValid = await user.comparePassword(password)
+  if (!isPasswordValid) {
+    throw new Error('Invalid password')
+  }
+
+  const token = user.generateAuthToken()
+  return { user: user.toObject(), token }
+}
 
 export { registerS, loginS }
