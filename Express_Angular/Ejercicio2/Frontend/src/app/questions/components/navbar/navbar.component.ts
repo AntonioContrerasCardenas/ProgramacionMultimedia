@@ -12,6 +12,6 @@ export class NavbarComponent {
   private router = inject(Router);
 
   goToHome() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 }
