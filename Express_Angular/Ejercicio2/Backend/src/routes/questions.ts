@@ -1,5 +1,6 @@
 import express from 'express'
 import {
+  getQuestionCountByCategory,
   getQuestionsByCategory,
   getQuestionsByCategoryPaginated,
   getRandomQuestions,
@@ -12,5 +13,6 @@ router.get('/random', getRandomQuestions)
 //Para llamar a este endpoint usar una peticion get con una url como esta: http:localhost:3000/api/questions/category?category=science
 router.get('/category', getQuestionsByCategory)
 router.get('/category/paginated', getQuestionsByCategoryPaginated)
+router.get('/count/:category', getQuestionCountByCategory)
 
 export default router

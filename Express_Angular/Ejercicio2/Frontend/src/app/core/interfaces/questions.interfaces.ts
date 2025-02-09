@@ -38,3 +38,7 @@ export type Category2 =
   | 'movies'
   | 'books'
   | 'games';
+
+export interface CountQuestionsResponse {
+  count: number;
+}

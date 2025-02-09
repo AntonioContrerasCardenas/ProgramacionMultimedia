@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
+  CountQuestionsResponse,
   Question,
   QuestionResponse,
   QuestionsByCategoryPaginatedResponse,
@@ -55,5 +56,26 @@ export class QuestionsService {
     return this.http.get<QuestionsByCategoryPaginatedResponse>(
       `${this.apiUrl}/category/paginated?limit=${limit}&category=${categoryId}&page=${page}`
     );
+  }
+
+  getQuestionsByCategoryWithPagination(
+    categoryId: string,
+    page: number,
+    total: number,
+    perPage: number
+  ): Observable<QuestionsByCategoryPaginatedResponse> {
+    return this.http.get<QuestionsByCategoryPaginatedResponse>(
+      `${this.apiUrl}/category/paginated?category=${categoryId}&page=${page}&total=${total}&perPage=${perPage}`
+    );
+  }
+
+  getQuestionCountByCategory(categoryId: string): Observable<number> {
+    return this.http
+      .get<CountQuestionsResponse>(`${this.apiUrl}/count/${categoryId}`)
+      .pipe(
+        map((response) => {
+          return response.count;
+        })
+      );
   }
 }

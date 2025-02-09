@@ -1,0 +1,40 @@
+<h2>Select a category and number of questions to play</h2>
+
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="category">Selecciona una categoría:</label>
+    <select
+      id="category"
+      formControlName="category"
+      (change)="onCategoryChange()"
+      class="form-control"
+    >
+      <option value="" disabled>-- Elige categoría --</option>
+
+      @for (category of categories; track $index) {
+      <option [value]="category._id">
+        {{ category.name }}
+      </option>
+      }
+    </select>
+  </div>
+
+  @if (maxQuestions > 0) {
+  <div class="form-group">
+    <label for="questionCount">Número de preguntas:</label>
+    <select
+      id="questionCount"
+      formControlName="questionCount"
+      class="form-control"
+    >
+      @for (num of getNumbersArray(maxQuestions); track $index) {
+      <option [value]="num">
+        {{ num }}
+      </option>
+      }
+    </select>
+  </div>
+  }
+
+  <button type="submit" class="btn btn-primary">Continuar</button>
+</form>

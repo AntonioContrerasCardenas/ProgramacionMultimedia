@@ -71,11 +71,12 @@ export const getQuestionsByCategoryPaginated = async (
   res: Response
 ) => {
   try {
-    const { category, page = 1, limit = 6 } = req.query
+    const { category, page = 1, total = 1, perPage = 2 } = req.query
 
     const categoryString = category as string
     const numericPage = Number(page)
-    const numericLimit = Number(limit)
+    const numericTotal = Number(total)
+    const numericPerPage = Number(perPage)
 
     if (!categoryString) {
       res.status(404).send({ error: 'Category not found' })
@@ -86,7 +87,8 @@ export const getQuestionsByCategoryPaginated = async (
       await fetchQuestionsByCategoryWithPagination(
         categoryString,
         numericPage,
-        numericLimit
+        numericTotal,
+        numericPerPage
       )
 
     if (!questions || questions.length === 0) {
@@ -95,6 +97,30 @@ export const getQuestionsByCategoryPaginated = async (
     }
 
     res.status(200).send({ questions, totalPages })
+    return
+  } catch (error: any) {
+    res.status(404).send({ error: error.message })
+    return
+  }
+}
+
+export const getQuestionCountByCategory = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { category } = req.params
+
+    const categoryString = category as string
+
+    if (!categoryString) {
+      res.status(404).send({ error: 'Category not found' })
+      return
+    }
+
+    const count = await Question.countDocuments({ categoryId: categoryString })
+
+    res.status(200).send({ count })
     return
   } catch (error: any) {
     res.status(404).send({ error: error.message })

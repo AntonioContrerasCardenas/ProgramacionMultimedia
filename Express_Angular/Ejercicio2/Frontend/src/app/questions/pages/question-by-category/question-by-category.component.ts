@@ -20,6 +20,7 @@ export class QuestionByCategoryComponent implements OnInit {
   private autoDestroy$ = inject(AutoDestroyService);
 
   public categoryId: string = '';
+  public numberOfQuestions: number = 0;
   public questions: Question[] = [];
   public currentPage: number = 1;
   private totalPages: number = 0;
@@ -31,6 +32,7 @@ export class QuestionByCategoryComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.autoDestroy$)).subscribe((params) => {
       this.categoryId = params['id'];
+      this.numberOfQuestions = +params['number'];
       if (this.categoryId) this.loadQuestions();
     });
   }
@@ -43,9 +45,10 @@ export class QuestionByCategoryComponent implements OnInit {
   loadQuestions() {
     if (this.categoryId) {
       this.questionService
-        .getQuestionsByCategory(
+        .getQuestionsByCategoryWithPagination(
           this.categoryId,
           this.currentPage,
+          this.numberOfQuestions,
           this.questionsPerPage
         )
         .pipe(takeUntil(this.autoDestroy$))

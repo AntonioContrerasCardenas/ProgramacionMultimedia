@@ -35,23 +35,34 @@ export const fetchQuestionsByCategory = async (
 export const fetchQuestionsByCategoryWithPagination = async (
   category: string,
   page: number,
-  limit: number
+  totalRequested: number,
+  perPage: number
 ) => {
   const categoryFound = await Category.findOne({ _id: category })
 
   if (!categoryFound) throw new Error('Category not found')
 
-  const totalQuestions = await Question.countDocuments({
-    categoryId: categoryFound,
+  const availableQuestions = await Question.countDocuments({
+    categoryId: categoryFound._id,
   })
 
-  const totalPages = Math.ceil(totalQuestions / limit)
+  // Si quiero 20 preguntas y solo hay 10 disponibles, solo devuelvo 10
+  const totalQuestions = Math.min(availableQuestions, totalRequested)
+  const totalPages = Math.ceil(totalQuestions / perPage)
 
-  const skip = (page - 1) * limit
+  const skip = (page - 1) * perPage
 
-  const questions = await Question.find({ categoryId: categoryFound })
+  //Por si quiero 2 preguntas por pagina pero solo tengo 1 disponible, solo devuelvo 1
+  const questionsToFetch = Math.min(perPage, totalQuestions - skip)
+  if (questionsToFetch <= 0) {
+    return { questions: [], totalPages }
+  }
+
+  const paginatedQuestions = await Question.find({
+    categoryId: categoryFound._id,
+  })
     .skip(skip)
-    .limit(limit)
+    .limit(questionsToFetch)
 
-  return { questions, totalPages }
+  return { questions: paginatedQuestions, totalPages }
 }
