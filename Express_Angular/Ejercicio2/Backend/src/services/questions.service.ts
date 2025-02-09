@@ -66,3 +66,27 @@ export const fetchQuestionsByCategoryWithPagination = async (
 
   return { questions: paginatedQuestions, totalPages }
 }
+
+export const createQuestionS = async (
+  categoryId: string,
+  question: string,
+  answer: string,
+  options: string[],
+  userId: string
+) => {
+  const category = await Category.findOne({ _id: categoryId })
+
+  if (!category) throw new Error('Category not found')
+
+  const questionToCreate = new Question({
+    question,
+    answer,
+    options,
+    categoryId: category._id,
+    userId,
+  })
+
+  await questionToCreate.save()
+
+  return { question: questionToCreate.toObject() }
+}

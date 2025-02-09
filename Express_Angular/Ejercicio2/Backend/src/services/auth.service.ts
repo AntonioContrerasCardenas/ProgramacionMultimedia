@@ -21,7 +21,8 @@ const loginS = async (email: string, password: string) => {
     throw new Error('Invalid password')
   }
 
-  const token = user.generateAuthToken()
+  const token = await user.generateAuthToken()
+  console.log({ token })
   return { user: user.toObject(), token }
 }
 

@@ -5,6 +5,7 @@ export interface QuestionI extends Document {
   answer: string
   options: string[]
   categoryId: Types.ObjectId
+  userId: Types.ObjectId
 }
 
 const QuestionSchema = new Schema<QuestionI>({
@@ -14,6 +15,11 @@ const QuestionSchema = new Schema<QuestionI>({
   categoryId: {
     type: Schema.Types.ObjectId,
     ref: 'Category',
+    required: true,
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
 })

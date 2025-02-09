@@ -36,5 +36,15 @@
   </div>
   }
 
-  <button type="submit" class="btn btn-primary">Continuar</button>
+  <button type="submit" class="btn" [disabled]="!myForm.valid">
+    Continuar
+  </button>
 </form>
+
+<hr />
+
+<div class="btn-group">
+  <button class="btn">
+    <a routerLink="/home/createQuestion">Create question</a>
+  </button>
+</div>

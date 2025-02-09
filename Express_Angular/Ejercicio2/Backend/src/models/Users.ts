@@ -68,14 +68,15 @@ UsersSchema.methods.comparePassword = async function (password: string) {
   return bcrypt.compare(password, this.password)
 }
 
-UsersSchema.methods.generateAuthToken = function () {
+UsersSchema.methods.generateAuthToken = async function () {
   const user = this as HydratedDocument<IUser>
   const token = jwt.sign(
     { _id: user._id.toString(), email: user.email },
     JWT_SECRET || 'secreto',
     { expiresIn: '1h' }
   )
-  user.tokens.push({ token })
+  user.tokens = user.tokens.concat({ token })
+  await user.save()
   return token
 }
 

@@ -1,10 +1,12 @@
 import express from 'express'
 import {
+  createQuestion,
   getQuestionCountByCategory,
   getQuestionsByCategory,
   getQuestionsByCategoryPaginated,
   getRandomQuestions,
 } from '../controllers/question.controller'
+import { auth } from '../middleware/auth'
 
 const router = express.Router()
 
@@ -14,5 +16,5 @@ router.get('/random', getRandomQuestions)
 router.get('/category', getQuestionsByCategory)
 router.get('/category/paginated', getQuestionsByCategoryPaginated)
 router.get('/count/:category', getQuestionCountByCategory)
-
+router.post('/create', auth, createQuestion)
 export default router

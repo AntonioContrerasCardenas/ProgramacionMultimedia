@@ -1,5 +1,6 @@
 import { Response, Request } from 'express'
 import {
+  createQuestionS,
   fetchQuestionByCategory,
   fetchQuestionsByCategory,
   fetchQuestionsByCategoryWithPagination,
@@ -125,5 +126,53 @@ export const getQuestionCountByCategory = async (
   } catch (error: any) {
     res.status(404).send({ error: error.message })
     return
+  }
+}
+
+export const createQuestion = async (req: Request, res: Response) => {
+  try {
+    const { category, question, answer, options } = req.body
+
+    const categoryIdString = category as string
+    const questionString = question as string
+    const answerString = answer as string
+    const optionsString = options as string[]
+
+    if (!categoryIdString) {
+      res.status(404).send({ error: 'Category not send' })
+      return
+    }
+
+    if (!questionString) {
+      res.status(404).send({ error: 'Question not send' })
+      return
+    }
+
+    if (!answerString) {
+      res.status(404).send({ error: 'Answer not send' })
+      return
+    }
+
+    if (!optionsString) {
+      res.status(404).send({ error: 'Options not send' })
+      return
+    }
+
+    const userId = req.user?._id as string
+    if (!userId) {
+      res.status(404).send({ error: 'User not send' })
+      return
+    }
+    const questionResponse = await createQuestionS(
+      categoryIdString,
+      questionString,
+      answerString,
+      optionsString,
+      userId
+    )
+
+    res.status(201).send({ question: questionResponse.question })
+  } catch (error: any) {
+    res.status(404).send({ error: error.message })
   }
 }

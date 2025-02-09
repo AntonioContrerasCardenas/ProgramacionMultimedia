@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { takeUntil } from 'rxjs';
 import { Category } from '../../../core/interfaces/questions.interfaces';
 import { AutoDestroyService } from '../../../core/services/auto-destroy.service';
@@ -15,7 +15,7 @@ import { QuestionsService } from '../../../core/services/questions.service';
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
@@ -44,6 +44,7 @@ export class HomePageComponent {
 
     this.questionsService
       .getQuestionCountByCategory(categoryId)
+      .pipe(takeUntil(this.autoDestroy$))
       .subscribe((count) => {
         this.maxQuestions = count;
         this.myForm.get('questionCount')?.setValue(1);
