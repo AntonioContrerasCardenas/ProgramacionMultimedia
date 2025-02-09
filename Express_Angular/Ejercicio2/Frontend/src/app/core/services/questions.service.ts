@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   CountQuestionsResponse,
+  CreateQuestionRequest,
+  CreateQuestionResponse,
   Question,
   QuestionResponse,
   QuestionsByCategoryPaginatedResponse,
@@ -77,5 +79,21 @@ export class QuestionsService {
           return response.count;
         })
       );
+  }
+
+  createQuestion(
+    question: CreateQuestionRequest
+  ): Observable<CreateQuestionResponse> {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.post<CreateQuestionResponse>(
+      `${this.apiUrl}/create`,
+      question,
+      { headers }
+    );
   }
 }

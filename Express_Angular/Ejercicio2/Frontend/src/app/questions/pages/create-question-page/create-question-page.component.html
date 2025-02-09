@@ -1,1 +1,44 @@
-<p>create-question-page works!</p>
+<article>
+  <h1>Create a new question</h1>
+  <form [formGroup]="myForm" class="form" (ngSubmit)="onSubmit()">
+    <div class="form_group">
+      <label for="category">Select a category:</label>
+      <select id="category" formControlName="category" class="form-control">
+        @for (category of categories; track $index) {
+        <option [value]="category._id">
+          {{ category.name }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <div class="form_group">
+      <label for="question">Introduce a question:</label>
+      <textarea
+        formControlName="question"
+        class="form-control"
+        rows="3"
+        placeholder="Introduce here your question"
+      ></textarea>
+    </div>
+
+    <div class="form_group">
+      <label for="answer">Introduce a answer:</label>
+      <input formControlName="answer" type="text" name="answer" id="answer" />
+    </div>
+
+    <div class="form_group">
+      <label>Options:</label>
+      <div class="option_container" formArrayName="options">
+        @for (option of options.controls; track $index) {
+        <input
+          formControlName="{{ $index }}"
+          placeholder="Option {{ $index + 1 }}"
+        />
+        }
+      </div>
+    </div>
+
+    <button type="submit" class="btn" [disabled]="!myForm.valid">Create</button>
+  </form>
+</article>

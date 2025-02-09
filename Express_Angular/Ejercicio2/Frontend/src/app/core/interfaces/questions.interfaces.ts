@@ -42,3 +42,24 @@ export type Category2 =
 export interface CountQuestionsResponse {
   count: number;
 }
+
+export interface CreateQuestionResponse {
+  question: CreateQuestion;
+}
+
+export interface CreateQuestion {
+  question: string;
+  answer: string;
+  options: string[];
+  categoryId: string;
+  userId: string;
+  _id: string;
+  __v: number;
+}
+
+export interface CreateQuestionRequest {
+  category: string;
+  question: string;
+  answer: string;
+  options: string[];
+}

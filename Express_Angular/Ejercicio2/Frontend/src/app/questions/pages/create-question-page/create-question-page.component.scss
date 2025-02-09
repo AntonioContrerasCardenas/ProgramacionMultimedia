@@ -1,0 +1,43 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.5);
+  min-width: 311px;
+  justify-content: center;
+  align-items: center;
+  padding: 5%;
+  .form_group {
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+}
+.option_container {
+  margin-bottom: 1rem;
+  position: relative;
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+
+    &.invalid {
+      border-color: #dc3545;
+    }
+  }
+
+  .error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    display: block;
+  }
+}
