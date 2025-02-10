@@ -1,5 +1,11 @@
 <article>
   <h1>Create a new question</h1>
+  @if (message) {
+  <div class="message_container">
+    <h2 class="message">{{ message }}</h2>
+  </div>
+
+  }
   <form [formGroup]="myForm" class="form" (ngSubmit)="onSubmit()">
     <div class="form_group">
       <label for="category">Select a category:</label>

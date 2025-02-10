@@ -27,6 +27,7 @@ export class CreateQuestionPageComponent implements OnInit {
   private questionService = inject(QuestionsService);
   private _autoDestroy$ = inject(AutoDestroyService);
   public categories: Category[] = [];
+  public message: string = '';
 
   fb = inject(FormBuilder);
   myForm: FormGroup = this.fb.group({
@@ -79,8 +80,14 @@ export class CreateQuestionPageComponent implements OnInit {
     this.questionService
       .createQuestion(body)
       .pipe(takeUntil(this._autoDestroy$))
-      .subscribe((response) => {
-        console.log(response);
+      .subscribe({
+        next: (question) => {
+          this.myForm.reset();
+          this.message = `Question created successfully`;
+        },
+        error: (error) => {
+          this.message = error.error.message;
+        },
       });
   }
 }
