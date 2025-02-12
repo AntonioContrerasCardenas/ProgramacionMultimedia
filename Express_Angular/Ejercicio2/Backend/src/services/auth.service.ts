@@ -1,4 +1,5 @@
-import { User } from '../models/Users'
+import { Document, HydratedDocument, Types } from 'mongoose'
+import { IUser, User } from '../models/Users'
 
 const registerS = async (name: string, email: string, password: string) => {
   const existUser = await User.findOne({ email })
@@ -26,4 +27,14 @@ const loginS = async (email: string, password: string) => {
   return { user: user.toObject(), token }
 }
 
-export { registerS, loginS }
+const logOutS = async (tokenS: string, user: HydratedDocument<IUser>) => {
+  user.tokens = user.tokens.filter((token) => token.token !== tokenS)
+  await user.save()
+}
+
+const logOutAllS = async (user: HydratedDocument<IUser>) => {
+  user.tokens = []
+  await user.save()
+}
+
+export { registerS, loginS, logOutS, logOutAllS }

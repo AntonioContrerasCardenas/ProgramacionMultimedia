@@ -81,11 +81,12 @@ export class CreateQuestionPageComponent implements OnInit {
       .createQuestion(body)
       .pipe(takeUntil(this._autoDestroy$))
       .subscribe({
-        next: (question) => {
+        next: () => {
           this.myForm.reset();
           this.message = `Question created successfully`;
         },
         error: (error) => {
+          console.log(error.status);
           this.message = error.error.message;
         },
       });

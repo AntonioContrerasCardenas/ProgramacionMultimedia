@@ -31,7 +31,18 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     next()
   } catch (error) {
     console.log(error)
-    res.status(401).send({ error: 'Invalid token' })
+
+    if (error instanceof jwt.TokenExpiredError) {
+      res.status(401).send({ error: 'Token expired' })
+      return
+    }
+
+    if (error instanceof jwt.JsonWebTokenError) {
+      res.status(401).send({ error: 'Invalid token' })
+      return
+    }
+
+    res.status(401).send({ error: 'Authentication failed' })
   }
 }
 

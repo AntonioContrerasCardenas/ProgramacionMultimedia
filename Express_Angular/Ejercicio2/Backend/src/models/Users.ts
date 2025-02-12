@@ -52,6 +52,12 @@ const UsersSchema = new Schema<IUser>({
   ],
 })
 
+UsersSchema.virtual('question', {
+  ref: 'Question',
+  localField: '_id',
+  foreignField: 'userId',
+})
+
 UsersSchema.pre('save', async function (next) {
   const user = this as HydratedDocument<IUser>
 
@@ -73,7 +79,7 @@ UsersSchema.methods.generateAuthToken = async function () {
   const token = jwt.sign(
     { _id: user._id.toString(), email: user.email },
     JWT_SECRET || 'secreto',
-    { expiresIn: '1h' }
+    { expiresIn: '2d' }
   )
   user.tokens = user.tokens.concat({ token })
   await user.save()

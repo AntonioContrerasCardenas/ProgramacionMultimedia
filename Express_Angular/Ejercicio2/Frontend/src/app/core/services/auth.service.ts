@@ -27,8 +27,8 @@ export class AuthService {
         password,
       })
       .pipe(
-        tap(({ user, token }) => {
-          this.setAuthUser(user, token);
+        tap(({ token }) => {
+          this.setAuthUser(token);
         })
         // catchError((error) => {
         //   console.error('Login failed', error);
@@ -56,9 +56,24 @@ export class AuthService {
     }
   }
 
-  setAuthUser(user: User, token: string) {
-    localStorage.setItem('user', JSON.stringify(user));
+  getToken() {
+    return localStorage.getItem('token');
+  }
+
+  deleteToken() {
+    localStorage.removeItem('token');
+  }
+
+  setAuthUser(token: string) {
     localStorage.setItem('token', token);
     this.isUserLoggedIn.next(true);
+  }
+
+  logOut() {
+    return this.http.get(`${this.apiUrl}/logout`);
+  }
+
+  logOutAll() {
+    return this.http.get(`${this.apiUrl}/logoutAll`);
   }
 }

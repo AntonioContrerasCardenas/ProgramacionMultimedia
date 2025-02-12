@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
-import { loginS, registerS } from '../services/auth.service'
+import {
+  loginS,
+  logOutAllS,
+  logOutS,
+  registerS,
+} from '../services/auth.service'
 
 const register = async (req: Request, res: Response) => {
   try {
@@ -33,4 +38,32 @@ const login = async (req: Request, res: Response) => {
   }
 }
 
-export { register, login }
+const logout = async (req: Request, res: Response) => {
+  try {
+    const { token, user } = req
+    if (!token || !user) {
+      res.status(400).send({ error: 'No user foun' })
+      return
+    }
+    await logOutS(token, user)
+    res.status(200).send({ message: 'Logged out successfully' })
+  } catch (error: any) {
+    res.status(400).send({ error: error.message })
+  }
+}
+
+const logoutAll = async (req: Request, res: Response) => {
+  try {
+    const { user } = req
+    if (!user) {
+      res.status(400).send({ error: 'No user foun' })
+      return
+    }
+    await logOutAllS(user)
+    res.status(200).send({ message: 'Logged out all successfully' })
+  } catch (error: any) {
+    res.status(400).send({ error: error.message })
+  }
+}
+
+export { register, login, logout, logoutAll }
