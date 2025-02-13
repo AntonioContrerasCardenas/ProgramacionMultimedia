@@ -1,11 +1,12 @@
 import express from 'express'
 import {
   createQuestion,
+  deleteQuestion,
+  getAllQuestionsOfUser,
   getQuestionCountByCategory,
   getQuestionsByCategory,
   getQuestionsByCategoryPaginated,
   getRandomQuestions,
-  prueba,
 } from '../controllers/question.controller'
 import { auth } from '../middleware/auth'
 
@@ -18,5 +19,6 @@ router.get('/category', auth, getQuestionsByCategory)
 router.get('/category/paginated', auth, getQuestionsByCategoryPaginated)
 router.get('/count/:category', auth, getQuestionCountByCategory)
 router.post('/create', auth, createQuestion)
-router.get('/prueba', auth, prueba)
+router.get('/personalQuestions', auth, getAllQuestionsOfUser)
+router.delete('/question/:questionId', auth, deleteQuestion)
 export default router

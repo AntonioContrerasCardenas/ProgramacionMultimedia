@@ -1,5 +1,7 @@
+import { HydratedDocument } from 'mongoose'
 import { Category } from '../models/Category'
 import { Question } from '../models/Question'
+import { IUser } from '../models/Users'
 
 export const fetchRandomQuestion = async () => {
   //   const numberQuestions = await Question.countDocuments()
@@ -36,7 +38,8 @@ export const fetchQuestionsByCategoryWithPagination = async (
   category: string,
   page: number,
   totalRequested: number,
-  perPage: number
+  perPage: number,
+  user: HydratedDocument<IUser>
 ) => {
   const categoryFound = await Category.findOne({ _id: category })
 
@@ -44,6 +47,7 @@ export const fetchQuestionsByCategoryWithPagination = async (
 
   const availableQuestions = await Question.countDocuments({
     categoryId: categoryFound._id,
+    $or: [{ userId: null }, { userId: user._id }],
   })
 
   // Si quiero 20 preguntas y solo hay 10 disponibles, solo devuelvo 10
@@ -60,6 +64,7 @@ export const fetchQuestionsByCategoryWithPagination = async (
 
   const paginatedQuestions = await Question.find({
     categoryId: categoryFound._id,
+    $or: [{ userId: null }, { userId: user._id }],
   })
     .skip(skip)
     .limit(questionsToFetch)

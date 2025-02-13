@@ -84,16 +84,17 @@ export class QuestionsService {
   createQuestion(
     question: CreateQuestionRequest
   ): Observable<CreateQuestionResponse> {
-    const token = localStorage.getItem('token');
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-
     return this.http.post<CreateQuestionResponse>(
       `${this.apiUrl}/create`,
-      question,
-      { headers }
+      question
     );
+  }
+
+  getQuestionsOfUser(): Observable<QuestionResponse> {
+    return this.http.get<QuestionResponse>(`${this.apiUrl}/personalQuestions`);
+  }
+
+  deleteQuestion(questionId: string) {
+    return this.http.delete(`${this.apiUrl}/question/${questionId}`);
   }
 }

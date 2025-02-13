@@ -1,0 +1,23 @@
+<div class="card">
+  @if (question._id) {
+  <h2 class="question">{{ question.question }}</h2>
+
+  <div class="options">
+    @for (option of question.options; track $index) {
+    <button class="option">
+      {{ option }}
+    </button>
+    }
+  </div>
+
+  <div>
+    <button (click)="updateClicked = !updateClicked">Update</button>
+    <button (click)="deleteClicked = !deleteClicked">Delete me</button>
+  </div>
+  @if (deleteClicked) {
+  <p>Are you sure you want to delete this question?</p>
+  <button (click)="deleteQuestion(question._id)">Yes</button>
+  } @if (updateClicked) {
+  <button>Update me</button>
+  } }
+</div>

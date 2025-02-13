@@ -1,0 +1,15 @@
+<div class="container">
+  @if(questions.length === 0) {
+  <h2>You have no questions</h2>
+  }@else {
+  <h2>Your questions</h2>
+  <div class="questions-container">
+    @for (question of questions; track question._id) {
+    <questions-information-display
+      [question]="question"
+      (questionToDelete)="deleteQuestion($event)"
+    />
+    }
+  </div>
+  }
+</div>

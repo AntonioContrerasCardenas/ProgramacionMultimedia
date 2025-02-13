@@ -8,7 +8,6 @@ import {
   fetchRandomQuestions,
 } from '../services/questions.service'
 import { Question } from '../models/Question'
-import { pruebaS } from '../services/auth.service'
 
 export const getRandomQuestions = async (req: Request, res: Response) => {
   try {
@@ -38,6 +37,8 @@ export const getRandomQuestions = async (req: Request, res: Response) => {
 export const getQuestionsByCategory = async (req: Request, res: Response) => {
   try {
     const { category, limit } = req.query
+
+    const user = req.user!
 
     const categoryString = category as string
     const limitString = limit as string
@@ -74,7 +75,7 @@ export const getQuestionsByCategoryPaginated = async (
 ) => {
   try {
     const { category, page = 1, total = 1, perPage = 2 } = req.query
-
+    const user = req.user!
     const categoryString = category as string
     const numericPage = Number(page)
     const numericTotal = Number(total)
@@ -90,7 +91,8 @@ export const getQuestionsByCategoryPaginated = async (
         categoryString,
         numericPage,
         numericTotal,
-        numericPerPage
+        numericPerPage,
+        user
       )
 
     if (!questions || questions.length === 0) {
@@ -112,6 +114,7 @@ export const getQuestionCountByCategory = async (
 ) => {
   try {
     const { category } = req.params
+    const user = req.user!
 
     const categoryString = category as string
 
@@ -120,7 +123,10 @@ export const getQuestionCountByCategory = async (
       return
     }
 
-    const count = await Question.countDocuments({ categoryId: categoryString })
+    const count = await Question.countDocuments({
+      categoryId: categoryString,
+      $or: [{ userId: null }, { userId: user._id }],
+    })
 
     res.status(200).send({ count })
     return
@@ -178,18 +184,24 @@ export const createQuestion = async (req: Request, res: Response) => {
   }
 }
 
-export const prueba = async (req: Request, res: Response) => {
-  const user = req.user
-
-  if (!user) {
-    res.status(401).send({ error: 'Unauthorized' })
-    return
-  }
-
+export const getAllQuestionsOfUser = async (req: Request, res: Response) => {
   try {
-    const questionForUser = await pruebaS(user)
+    const user = req.user!
+    const questions = await Question.find({
+      userId: user._id,
+    })
+    res.status(200).send({ questions })
+  } catch (error: any) {
+    res.status(404).send({ error: error.message })
+  }
+}
 
-    res.status(201).send({ question: questionForUser })
+export const deleteQuestion = async (req: Request, res: Response) => {
+  try {
+    const questionId = req.params.questionId
+    const user = req.user!
+    await Question.deleteOne({ userId: user._id, _id: questionId })
+    res.status(200).send({ message: 'Question deleted successfully' })
   } catch (error: any) {
     res.status(404).send({ error: error.message })
   }

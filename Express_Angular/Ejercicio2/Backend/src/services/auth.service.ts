@@ -38,12 +38,4 @@ const logOutAllS = async (user: HydratedDocument<IUser>) => {
   await user.save()
 }
 
-const pruebaS = async (user: HydratedDocument<IUser>) => {
-  const p = await Question.find({
-    $or: [{ userId: null }, { userId: user._id }],
-  })
-
-  return p
-}
-
-export { registerS, loginS, logOutS, logOutAllS, pruebaS }
+export { registerS, loginS, logOutS, logOutAllS }
