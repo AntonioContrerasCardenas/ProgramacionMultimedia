@@ -1,5 +1,6 @@
 import { Document, HydratedDocument, Types } from 'mongoose'
 import { IUser, User } from '../models/Users'
+import { Question } from '../models/Question'
 
 const registerS = async (name: string, email: string, password: string) => {
   const existUser = await User.findOne({ email })
@@ -37,4 +38,12 @@ const logOutAllS = async (user: HydratedDocument<IUser>) => {
   await user.save()
 }
 
-export { registerS, loginS, logOutS, logOutAllS }
+const pruebaS = async (user: HydratedDocument<IUser>) => {
+  const p = await Question.find({
+    $or: [{ userId: null }, { userId: user._id }],
+  })
+
+  return p
+}
+
+export { registerS, loginS, logOutS, logOutAllS, pruebaS }

@@ -8,6 +8,7 @@ import {
   fetchRandomQuestions,
 } from '../services/questions.service'
 import { Question } from '../models/Question'
+import { pruebaS } from '../services/auth.service'
 
 export const getRandomQuestions = async (req: Request, res: Response) => {
   try {
@@ -172,6 +173,23 @@ export const createQuestion = async (req: Request, res: Response) => {
     )
 
     res.status(201).send({ question: questionResponse.question })
+  } catch (error: any) {
+    res.status(404).send({ error: error.message })
+  }
+}
+
+export const prueba = async (req: Request, res: Response) => {
+  const user = req.user
+
+  if (!user) {
+    res.status(401).send({ error: 'Unauthorized' })
+    return
+  }
+
+  try {
+    const questionForUser = await pruebaS(user)
+
+    res.status(201).send({ question: questionForUser })
   } catch (error: any) {
     res.status(404).send({ error: error.message })
   }

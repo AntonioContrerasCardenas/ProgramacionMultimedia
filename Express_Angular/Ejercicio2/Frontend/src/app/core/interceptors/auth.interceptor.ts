@@ -5,16 +5,12 @@ import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const includeUrl: string[] = [
-    'api/questions/create',
-    'api/auth/logout',
-    'api/auth/logoutAll',
-  ];
+  const excludeUrl: string[] = ['api/auth/login', 'api/auth/register'];
   const authService = inject(AuthService);
   const router = inject(Router);
-  const isIncluded = includeUrl.some((url) => req.url.includes(url));
+  const isExluded = excludeUrl.some((url) => req.url.includes(url));
 
-  if (!isIncluded) return next(req);
+  if (isExluded) return next(req);
 
   const token = authService.getToken();
   req = req.clone({
