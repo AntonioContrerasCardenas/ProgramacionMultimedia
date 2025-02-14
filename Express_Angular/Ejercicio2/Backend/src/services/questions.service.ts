@@ -77,12 +77,13 @@ export const createQuestionS = async (
   question: string,
   answer: string,
   options: string[],
-  userId: string
+  user: HydratedDocument<IUser>
 ) => {
   const category = await Category.findOne({ _id: categoryId })
 
   if (!category) throw new Error('Category not found')
 
+  const userId = user._id
   const questionToCreate = new Question({
     question,
     answer,

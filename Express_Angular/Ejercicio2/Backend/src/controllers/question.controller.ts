@@ -165,8 +165,8 @@ export const createQuestion = async (req: Request, res: Response) => {
       return
     }
 
-    const userId = req.user?._id as string
-    if (!userId) {
+    const user = req.user
+    if (!user) {
       res.status(404).send({ error: 'User not send' })
       return
     }
@@ -175,7 +175,7 @@ export const createQuestion = async (req: Request, res: Response) => {
       questionString,
       answerString,
       optionsString,
-      userId
+      user
     )
 
     res.status(201).send({ question: questionResponse.question })
